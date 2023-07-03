@@ -2,7 +2,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 // import { DateTime } from 'luxon';
 import Validator from 'App/Validators/Validator'
-import Database from '@ioc:Adonis/Lucid/Database'
+//import Database from '@ioc:Adonis/Lucid/Database'
 import ServiceOne from 'App/Services/serviceOne'
 // import  Holiday from "App/Models/holidays";
 

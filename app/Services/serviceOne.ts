@@ -19,9 +19,9 @@ export default  class ServiceOne{
     const query1 = await Database.query().from('holidaymaster')
       .select('Id', 'Name', 'Description','DateTo',
       Database.raw('DATE(DateFrom) AS fromDate'),
-      Database.raw('DATEDIFF(DATE(DateTo),DATE(DateFrom))  AS DiffDate'),'DateFrom')
+      Database.raw('DATEDIFF(DATE(DateTo),DATE(DateFrom))   AS DiffDate'),'DateFrom')
       .where('OrganizationId', orgId.orgId )
-    //   .orderBy('fromDate','desc')
+      .orderBy('fromDate','asc')
       .limit(perPage)
       .offset(begin)
       

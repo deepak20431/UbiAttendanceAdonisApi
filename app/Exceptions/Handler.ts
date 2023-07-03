@@ -38,7 +38,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
       return ctx.response.status(500).send('Connection Required with Xampp')
     }
     if (error.code === 'ER_NO_SUCH_TABLE') {
-      return ctx.response.status(500).send('No such Table_Name Found Sory')
+      return ctx.response.status(500).send(error)
     }
     if (error.code === 'E_ROW_NOT_FOUND') {
       return ctx.response.status(500).send('Row Not Found in databse Sory')
