@@ -22,5 +22,5 @@ import Route from '@ioc:Adonis/Core/Route'
 
 
 
-Route.post('/','UsersController.getDesignationList')
+Route.get('/','UsersController.getDesignationList')
 // Route.post('/','UsersController.show')
