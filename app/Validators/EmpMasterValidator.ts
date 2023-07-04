@@ -14,10 +14,10 @@ export default class EmpMasterValidator {
     pageName:schema.string([
       rules.required()
     ]),
-    currentPage:schema.string([
+    currentPage:schema.number([
       rules.required()
     ]),
-    perPage:schema.string([
+    perPage:schema.number([
       rules.required()
     ])
   }) ,message:BaseValidator.messages

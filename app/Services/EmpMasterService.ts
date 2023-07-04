@@ -3,13 +3,11 @@ import Database from "@ioc:Adonis/Lucid/Database"
 export default class EmpMasterService{
 
     static async fetch(dataf){
-
+    
     var begin:number = (dataf.currentPage-1)* dataf.perPage;
-
+    var Limit:number = 0;
     if(dataf.currentPage!=0 && dataf.pageName=='getEmployeesList'){
-         
-        var offset = begin;
-        var limit = dataf.perPage;
+        Limit = begin;
     } 
     const curdate = new Date().toISOString().split('T')[0];
    
@@ -22,8 +20,9 @@ export default class EmpMasterService{
             .andWhere('DOL','=','0000-00-00')
             .orWhere('DOL','>',curdate)
             .orderBy('FirstName')
-            .limit(limit)
-            .offset(offset)
+            .offset(Limit)
+            .limit(dataf.perPage)
+            
             
             
             const res:any[]=[];
