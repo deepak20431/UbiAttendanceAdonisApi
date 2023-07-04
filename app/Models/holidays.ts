@@ -1,25 +1,28 @@
-import Hash from '@ioc:Adonis/Core/Hash'
-// import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
-import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
+import  HolidayM from "App/Models/HolidayM";
 
-export default class Showtable extends BaseModel {
-    public static table ="holidaymaster"
+
+export default class holidays extends BaseModel {
+
+    public static table ="holidays"
   
   @column({isPrimary: true})
-  public Id: number
+  public id: number
 
   @column()
-  public Name: string
+  public holiday_Name: string
 
   @column()
-  public Description: string
+  public status: number
 
-  @column({columnName:'OrganizationId'})
-  public OrganizationId: number
-  @column()
-  public DateFrom: Date
+  // @column()
+  // public HM_Id: number
 
-  @column()
-  public DateTo: Date
+  @belongsTo(() => HolidayM, {
+    foreignKey: 'HM_Id'
+  })
+  public HM_Id: BelongsTo<typeof HolidayM>
+
+  // @belongsTo(()=>HolidayM)
+  // public holidays:BelongsTo<typeof HolidayM>
 }
-

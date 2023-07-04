@@ -14,7 +14,6 @@ export default class Validator extends BaseValidator{
    
   })
 }
-  //  ,message:BaseValidator.messages
 }
 
 
