@@ -11,9 +11,6 @@ export default class EmpMasterValidator {
     OrganizationId:schema.number([
       rules.required()
     ]),
-    // Id:schema.number([
-    //   rules.required()
-    // ]),
     pageName:schema.string([
       rules.required()
     ]),
@@ -24,8 +21,6 @@ export default class EmpMasterValidator {
       rules.required()
     ])
   }) ,message:BaseValidator.messages
-  
-  
-  // public messages: CustomMessages = {}
+    
 }
 }
