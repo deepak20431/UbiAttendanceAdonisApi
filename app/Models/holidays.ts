@@ -9,19 +9,19 @@ export default class holidays extends BaseModel {
   @column({isPrimary: true})
   public id: number
 
-  @column()
+  @column({columnName:"holiday_Name"})
   public holiday_Name: string
 
-  @column()
+  @column({columnName: "status"})
   public status: number
 
-  // @column()
-  // public HM_Id: number
+  @column({columnName:'HM_Id'})
+  public HM_Id: number
 
-  @belongsTo(() => HolidayM, {
-    foreignKey: 'HM_Id'
-  })
-  public HM_Id: BelongsTo<typeof HolidayM>
+  // @belongsTo(() => HolidayM, {
+  //   foreignKey: 'HM_Id'
+  // })
+  // public holidays: BelongsTo<typeof HolidayM>
 
   // @belongsTo(()=>HolidayM)
   // public holidays:BelongsTo<typeof HolidayM>

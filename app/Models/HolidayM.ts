@@ -4,25 +4,26 @@ import  holidays from "App/Models/holidays";
 
 
 export default class HolidayM extends BaseModel {
-    public static table ="holidaymaster"
+  public static table ="holidaymaster"
   
-  // @column({isPrimary: true})
-  // public Id: number
+  @column({isPrimary: true})
+  public Id: number
 
-  @column()
+  @column({columnName:'Name'})
   public Name: string
 
-  @column()
+  @column({columnName:'Description'})
   public Description: string
 
   @column({columnName:'OrganizationId'})
   public OrganizationId: number
-  @column()
+  
+  @column({columnName:"DateFrom"})
   public DateFrom: Date
 
-  @column()
+  @column({columnName:"DateTo"})
   public DateTo: Date
   
-  @hasOne(()=>holidays)
-  public Id:HasOne<typeof holidays>
+  // @hasOne(()=>holidays)
+  // public Id:HasOne<typeof holidays>
 }

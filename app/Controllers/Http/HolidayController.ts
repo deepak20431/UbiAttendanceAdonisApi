@@ -7,18 +7,16 @@ import  HolidayM from "App/Models/HolidayM"
 import { hasOne } from '@ioc:Adonis/Lucid/Orm'
 import holidays from 'App/Models/holidays'
 
-
 export default class User1sController {
 
   public async index({request,response}: HttpContextContract){   //HolidayMaster refer to  holidayM_services.ts
     
     const valid:any = await request.validate(Validator.newPostSchema)
     const result = await ServiceOne.Services1(valid)
-    return response.json(result) 
-           
+    return response.json(result)       
 }
   
-  public async create({}: HttpContextContract) {
+  public async create({}: HttpContextContract){
 
    const data = await Database.table('holidays').multiInsert([      // Multi-insert in holiday refers to Models/holidays.ts
       { holiday_name: 'Gandhi Jayanti' , HM_Id: '53' },
@@ -33,7 +31,6 @@ export default class User1sController {
       { holiday_name: "Election" , HM_Id: '208' },
     ])
     return data
-
   }
 
   public async store({response}: HttpContextContract) {   //  fetching common data from holidaymaster & holidays
@@ -42,9 +39,10 @@ export default class User1sController {
     .from('holidaymaster')
     .innerJoin('holidays',' holidaymaster.Id','holidays.HM_Id')
     .select("*")
-    
     return response.json(show)
 
+    // const show2 = await HolidayM.all()  // fetched all data from HolidayM -model
+    // return show2
   }
 
   public async show({}: HttpContextContract) {}
