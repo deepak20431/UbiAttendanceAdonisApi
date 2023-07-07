@@ -8,11 +8,10 @@ export default class Validator extends BaseValidator{
  constructor(protected ctx: HttpContextContract) {
   super()
  }
-
-  static newPostSchema = {schema:schema.create({
+   static newPostSchema = {schema:schema.create({
     orgId:schema.number(),
    
-  })
+   })
 }
 }
 

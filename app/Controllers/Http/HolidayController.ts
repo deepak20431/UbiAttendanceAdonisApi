@@ -3,14 +3,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Validator from 'App/Validators/Validator'
 import ServiceOne from 'App/Services/HolidayM_Service'
 import Database from '@ioc:Adonis/Lucid/Database'
-import  HolidayM from "App/Models/HolidayM"
-import { hasOne } from '@ioc:Adonis/Lucid/Orm'
-import holidays from 'App/Models/holidays'
 
 export default class User1sController {
 
   public async index({request,response}: HttpContextContract){   //HolidayMaster refer to  holidayM_services.ts
-    
     const valid:any = await request.validate(Validator.newPostSchema)
     const result = await ServiceOne.Services1(valid)
     return response.json(result)       

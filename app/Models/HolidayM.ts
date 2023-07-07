@@ -1,7 +1,6 @@
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column,  hasOne,  HasOne } from '@ioc:Adonis/Lucid/Orm'
 import  holidays from "App/Models/holidays";
-
 
 export default class HolidayM extends BaseModel {
   public static table ="holidaymaster"
@@ -24,6 +23,9 @@ export default class HolidayM extends BaseModel {
   @column({columnName:"DateTo"})
   public DateTo: Date
   
-  // @hasOne(()=>holidays)
-  // public Id:HasOne<typeof holidays>
+  @hasOne(()=>holidays)
+  public homme:HasOne<typeof holidays>
+
+  // HolidayM.$getrelation
+
 }

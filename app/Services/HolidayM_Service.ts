@@ -21,8 +21,7 @@ export default class ServiceOne {
         "DateTo",
         Database.raw("DATE(DateFrom) AS fromDate"),
         Database.raw("DATEDIFF(DATE(DateTo),DATE(DateFrom))   AS DiffDate"),
-        "DateFrom"
-      )
+        "DateFrom")
       .where("OrganizationId", orgId.orgId)
       .orderBy("fromDate", "asc")
       .limit(perPage)
@@ -32,15 +31,14 @@ export default class ServiceOne {
 
     query1.forEach(function (val) {
       const data: any = {};
-
       data["Id"] = val.Id;
       data["Name"] = val.Name;
       data["Description"] = val.Description;
       data["fromDate"] = moment(val.DateFrom).format("YYYY/MM/DD");
-      //data['fromDateFormat'] = moment(val.DateFrom).format('YYYY/MM/DD')
+    //data['fromDateFormat'] = moment(val.DateFrom).format('YYYY/MM/DD')
       data["DiffDate"] = val.DiffDate;
       data["DateTo"] = moment(val.DateTo).format("YYYY/MM/DD");
-      //data['DateToFormat']= moment(val.DateTo).format('YYYY/MM/DD')
+    //data['DateToFormat']= moment(val.DateTo).format('YYYY/MM/DD')
 
       q1.push(data);
     });
