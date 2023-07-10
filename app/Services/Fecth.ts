@@ -4,7 +4,7 @@ export default  class ServiceNameService{
   
 
     static async Fecth(deviceidpreference,orgid,empid){
-// return empid
+
       const data = {
         count: '0'
         
