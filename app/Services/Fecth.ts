@@ -33,7 +33,6 @@ if (rows.length > 0) {
 
     data['Hoursperday'] = row.Hoursperday,
 
-    // res.push(data)
   
   res.push(data['Id'], data['Name'], data['Timein'],  data['Timeout'],data['shifttype'],data['Hoursperday'])
     
