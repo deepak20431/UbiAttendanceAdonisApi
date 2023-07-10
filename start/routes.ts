@@ -22,9 +22,5 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/data','UsersController.getDeviceInfoCount')
 
-// Route.on('/testing').redirectToPath('https://duckduckgo.com/')
 
-
-    
-
-
+   

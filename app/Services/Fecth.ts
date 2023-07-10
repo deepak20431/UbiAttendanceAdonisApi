@@ -4,7 +4,7 @@ export default  class ServiceNameService{
   
 
     static async Fecth(deviceidpreference,orgid,empid){
-
+// return empid
       const data = {
         count: '0'
         
@@ -15,21 +15,25 @@ export default  class ServiceNameService{
       {
 
       
-
         const sql:any =await Database.from('EmployeeMaster')
         .where('DeviceId', deviceidpreference)
-        .where('OrganizationId', orgid)
-        .whereNot('Id', empid)
+        .andWhere('OrganizationId', orgid)
+        .andWhere('Id', '!=', empid)        
         .count('Id as count');
+
         const bindings = [deviceidpreference, orgid, empid];
 
-        const queryResult = await Database.raw(sql, bindings);
-        const row = queryResult[0];
+        const Result:any = await Database.raw(sql,bindings);
+
+        const row = Result.sql[0]; 
+        
 if (row) {
+
+
   data['count'] = row.count;
 }
       }
-      return data
+      return data['count']
  
 
 }

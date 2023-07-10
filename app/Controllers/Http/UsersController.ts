@@ -13,11 +13,11 @@ export default class UsersController {
 
   public async getDeviceInfoCount({request,response}: HttpContextContract) {
     const deviceidpreference = request.input('deviceidpreference', '');
-    const orgid = request.input('orgdir','');
+    const orgid = request.input('orgid','');
 
       const empid = request.input('empid', '');
       
-      const Display = await ServiceNameService.Fecth(empid,deviceidpreference,orgid)
+      const Display = await ServiceNameService.Fecth(deviceidpreference,orgid,empid)
    
       return response.ok(Display )
   

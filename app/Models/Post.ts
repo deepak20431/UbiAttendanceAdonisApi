@@ -1,25 +1,57 @@
-import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Post extends BaseModel {
-  public static table = 'shiftmaster'
+  public static table = 'EmployeeMaster'
   @column({ isPrimary: true })
-  public id: number
+  public Id: number
 
-  @column()
-  public Name:string
 
   
-  @column()
-  public Timein:DateTime
   
   @column()
-  public Timeout:DateTime
+  public EmployeeCode:string
+
+  @column()
+  public FirstName:string
+
+
+  @column()
+  public LastName :string
+
+  @column()
+  public DOB:Date
+  
   
   @column()
-  public shifttype:string
+  public Nationality:number
+
+
   
   @column()
-  public Hoursperday:number
+  public MaritalStatus:number
+  
+  @column()
+  public 	Religion:number
+  
+  @column()
+  public BloodGroup:number
+  
+  @column()
+  public KnownLanguage:string
+
+
+  
+  @column()
+  public DeviceId:string
+
+  
+  @column()
+  public OrganizationId:number
+
+  
+
+  
+  
+
 
 }
