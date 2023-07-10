@@ -11,12 +11,13 @@ export default class UsersController {
     
   }
 
-  public async getSelectedEmployeeShift({request,response}: HttpContextContract) {
-    const orgid = request.input('orgid', '0')
-    
-      const empid = request.input('empid', '0')
-     
-      const Display = await ServiceNameService.Fecth(empid)
+  public async getDeviceInfoCount({request,response}: HttpContextContract) {
+    const deviceidpreference = request.input('deviceidpreference', '');
+    const orgid = request.input('orgdir','');
+
+      const empid = request.input('empid', '');
+      
+      const Display = await ServiceNameService.Fecth(empid,deviceidpreference,orgid)
    
       return response.ok(Display )
   

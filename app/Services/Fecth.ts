@@ -1,43 +1,37 @@
 
 import Database from "@ioc:Adonis/Lucid/Database";
-import { DateTime } from "luxon";
 export default  class ServiceNameService{
   
 
-    static async Fecth(empid){
+    static async Fecth(deviceidpreference,orgid,empid){
+
+      const data = {
+        count: '0'
+        
+      };     
 
 
-const shiftid = await this.getShiftIdByEmpID(empid)
-const res: { Id: number, Name: string,Timein:DateTime,Timeout:DateTime,shifttype:string,Hoursperday	:number  }[] = [];
+      if(deviceidpreference != '')
+      {
 
+      
 
+        const sql:any =await Database.from('EmployeeMaster')
+        .where('DeviceId', deviceidpreference)
+        .where('OrganizationId', orgid)
+        .whereNot('Id', empid)
+        .count('Id as count');
+        const bindings = [deviceidpreference, orgid, empid];
 
-
-
-const rows = await Database.from('ShiftMaster')
-.select('Id', 'Name', 'Timein', 'Timeout', 'shifttype', 'Hoursperday')
-.where('Id', shiftid)
+        const queryResult = await Database.raw(sql, bindings);
+        const row = queryResult[0];
+if (row) {
+  data['count'] = row.count;
+}
+      }
+      return data
  
 
-
-if (rows.length > 0) {
-  rows.forEach((row) =>{  
-    const data:any= [];
-
-    data['Id'] = row.Id,
-    data['Name'] = row.Name,
-  
-    data['Timein'] = row.Timein,
-    data['Timeout'] = row.Timeout,
-    data['shifttype'] = row.shifttype,
-
-    data['Hoursperday'] = row.Hoursperday,
-
-  
-  res.push(data['Id'], data['Name'], data['Timein'],  data['Timeout'],data['shifttype'],data['Hoursperday'])
-    
-  }) 
-  return res
 }
 
 
@@ -48,14 +42,3 @@ if (rows.length > 0) {
 
 
 
-
-
- static async getShiftIdByEmpID(empid) {
-
-return empid
-
-}
-
-
-
-}
