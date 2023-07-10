@@ -8,7 +8,7 @@ import ServiceNameService from 'App/Services/Fecth';
 export default class UsersController {
   public async index({}: HttpContextContract) {
     
-    
+
     
    
     
@@ -19,9 +19,9 @@ export default class UsersController {
     
       const empid = request.input('empid', '0')
      
-      const designations = await ServiceNameService.Fecth(empid)
+      const Display = await ServiceNameService.Fecth(empid)
    
-      return response.ok(designations)
+      return response.ok(Display )
   
   }
   public async create({}: HttpContextContract) {}
