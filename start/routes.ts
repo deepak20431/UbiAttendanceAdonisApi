@@ -19,8 +19,5 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/data','UsersController.getDeviceInfoCount')
-
-
-   
+Route.get('/user','UsersController.index')
+Route.get('/user1','UsersController.create')
