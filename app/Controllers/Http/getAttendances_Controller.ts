@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AttendancesValidator from 'App/Validators/getAttendances_Validator'
 import LogicsOnly from 'App/Services/getAttendances_service'
 
+//////////////////////ashii////////////////
 export default class User1sController {
 
     public async index({request,response}: HttpContextContract){ 
