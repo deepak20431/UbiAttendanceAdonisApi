@@ -1,9 +1,9 @@
 import Holiday from "App/Models/HolidayM";
 import Database from "@ioc:Adonis/Lucid/Database";
-import moment from "moment";
+// import moment from "moment";
 
 export default class ServiceOne {
-  static async Services1(orgId) {
+  static async Services1(orgId) { 
     
     const currentPage = 2;
     const perPage = 10;
@@ -27,7 +27,7 @@ export default class ServiceOne {
       .limit(perPage)
       .offset(begin);
 
-   // return query1
+    // return query1
 
     query1.forEach(function (val) {
       const data: any = {};
