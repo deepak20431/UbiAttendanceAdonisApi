@@ -11,7 +11,8 @@ export default class LogicsOnly {
     if (data.date == undefined) {
       let currDate = moment().format("YYYY-MM-DD");
       query = query.where("AttendanceDate", currDate);
-    } else {
+    } 
+    else{
       const originalDateString = data.date;
       const originalDate = new Date(originalDateString);
       const year = originalDate.getFullYear();
@@ -20,7 +21,7 @@ export default class LogicsOnly {
       const formattedDate = `${year}-${month}-${day}`;
       query = query.where("AttendanceDate", formattedDate);
     }
-
+    
     const resp: any[] = [];
     const queryResult = await query;
 
