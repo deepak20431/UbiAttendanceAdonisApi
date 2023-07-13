@@ -47,6 +47,6 @@ export default class LogicsOnly {
         resp.push(data);
     
     })
-        return resp;
+       // return resp;
   }
 }
