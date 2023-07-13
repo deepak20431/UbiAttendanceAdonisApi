@@ -5,7 +5,7 @@ export default  class ServiceNameService{
   
 
     static async Fecth(MainData){
-  // return MainData.AttendanceDate
+  // return MainData.Id
   // 
 
 const originalDateString = MainData.AttendanceDate
@@ -17,7 +17,7 @@ const year = originalDate.getFullYear();
 const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
 const day = originalDate.getDate().toString().padStart(2, '0');
 
-// Create the new date string in the desired format (YYYY-MM-DD)
+// Create the new date string in the desired format (YYYY-MM-DD)l
 const formattedDate = `${year}-${month}-${day}`;
 
 
@@ -32,94 +32,56 @@ const formattedDate = `${year}-${month}-${day}`;
       const start = 0; // Starting index of the range
       const end = 10;
       let query:any =""
-if(MainData.OrganizationId != ''){
-   query = await Database.from('AttendanceMainMaster')
-        .innerJoin('AttendanceChildMaster','AttendanceMainMaster.Id','AttendanceChildMaster.Id')
-        .select('*')
-        .limit(limit)
-        .offset(start);
-      //  return query
-        
-       return '0'
-    
+      let q1 = '';
+      let q2 = '';
 
 
-}
-
-       else if(formattedDate == undefined)
-      {
-       
-        const currentDate = moment();
-
-        // Format the current date if needed
-        const formDate = currentDate.format("YYYY-MM-DD");
-         query = await Database.from('AttendanceMainMaster')
-        .innerJoin('AttendanceChildMaster','AttendanceMainMaster.Id','AttendanceChildMaster.Id')
-        .select('*')
-        .where('AttendanceMainMaster.AttendanceDate',formDate)
-
-return '2'
-
-
-  query.forEach( function(value){
-
-    data['Id'] =  value.Id; 
-    data['TimeIn'] =  value.TimeIn;
-    data['TimeOut'] =  value.TimeOut;  
-    data['Overtime'] =  value.Overtime;  
-    data['device'] = value.device;
-    data["AttendanceDate"] = new Date(value.AttendanceDate).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-
-
-  
-
-    data['EmployeeId'] = value.EmployeeId;
-
-res.push
-    res.push(data['Id'],data['TimeIn'],data['TimeOut'],data['Overtime'],data['device'],data['AttendanceDate'],data['EmployeeId'] )        
-    
-
-    })
-    return res
-        
+      if ( MainData.Id !== 0) {
+        q1 += ` andwhere Id='${MainData.Id}'`;
 
       }
-      else{
+    
+      
+      if ( MainData.Id !== 0) {
+        q2 += ` andwhere Id='${MainData.Id}'`;
 
+      }
+    
+      
+      
 
-        console.log("hello")
-         query = await Database.from('AttendanceMainMaster')
+         const sql = await Database.from('AttendanceMainMaster')
         .innerJoin('AttendanceChildMaster','AttendanceMainMaster.Id','AttendanceChildMaster.Id')
         .select('*')
-        .where('AttendanceMainMaster.AttendanceDate',formattedDate)
-        .andWhere('AttendanceMainMaster.Id',MainData.Id)
-         
+        .andWhere('AttendanceChildMaster.OrganizationId',MainData.OrganizationId)
+        .whereRaw('AttendanceChildMaster.Id = ?', [q1])
 
-        return '2'
+
  
+        return sql
 
 
-    }
-    query.forEach( function(value){
+    
+    // query.forEach( function(value){
 
-      data['Id'] =  value.Id; 
-      data['TimeIn'] =  value.TimeIn;
-      data['TimeOut'] =  value.TimeOut;  
-      data['Overtime'] =  value.Overtime;  
-      data['device'] = value.device;
-      data["AttendanceDate"] = new Date(value.AttendanceDate).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });;
+    //   data['Id'] =  value.Id; 
+    //   data['TimeIn'] =  value.TimeIn;
+    //   data['TimeOut'] =  value.TimeOut;  
+    //   data['Overtime'] =  value.Overtime;  
+    //   data['device'] = value.device;
+    //   data["AttendanceDate"] = new Date(value.AttendanceDate).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });;
 
 
     
 
-      data['EmployeeId'] = value.EmployeeId;
+    //   data['EmployeeId'] = value.EmployeeId;
 
  
-      res.push(data['Id'],data['TimeIn'],data['TimeOut'],data['Overtime'],data['device'],data['AttendanceDate'],data['EmployeeId'] )        
+    //   res.push(data['Id'],data['TimeIn'],data['TimeOut'],data['Overtime'],data['device'],data['AttendanceDate'],data['EmployeeId'] )        
       
 
-      })
-      return res
+    //   })
+    //   return res
 
 
 }

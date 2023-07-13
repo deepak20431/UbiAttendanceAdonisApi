@@ -11,7 +11,9 @@ export default class UservalidationValidator {
     Id:schema.number.optional(),
     AttendanceDate:schema.date.optional({format: 'yyyy-MM-dd'}),
 
-    OrganizationId:schema.number.optional()
+    OrganizationId:schema.number(),
+    EmployeeId:schema.number.optional()
+
 
    
 
