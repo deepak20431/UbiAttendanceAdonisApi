@@ -17,15 +17,6 @@ Route.patch("/",() =>{
     return "Hello AdonisJs"
 })
 
-
-
-
-
-
-
-
-
-
 //-------------------------------------------------------------
 Route.get('/holidayM','HolidayMastersController.index')
 Route.get('/holidayinsert','HolidayMastersController.create')
