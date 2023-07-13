@@ -1,31 +1,22 @@
 import Database from "@ioc:Adonis/Lucid/Database";
 import moment from "moment";
 export default class ServiceNameService {
-  static async Fecth(data) {
-    // return data
+  static async Fecth(Maindata) {
+    // return Maindata
     let query: any = Database.from("AttendanceMainMaster")
       .innerJoin(
         "AttendanceChildMaster",
         "AttendanceMainMaster.Id",
         "AttendanceChildMaster.Id"
       )
-      .innerJoin('onDeleteShift', 'table2.column', 'table3.column')
-
-      .where("OrganizationId", data.OrganizationId) 
-
-  .innerJoin('table4', 'table3.column', 'table4.column')
-  .select('table1.*', 'table2.*', 'table3.*', 'table4.*')
-  .where('table1.someColumn', 'someValue')
-  .where('table2.someColumn', 'someValue')
-  .where('table3.someColumn', 'someValue')
-  .where('table4.someColumn', 'someValue')
+      .where("OrganizationId", Maindata.OrganizationId) 
       .select("*");
 
-    if (data.AttendanceDate == undefined) {
+    if (Maindata.AttendanceDate == undefined) {
       let currDate = moment().format("YYYY-MM-DD");
       query = query.where("AttendanceDate", currDate);
     } else {
-      const originalDateString = data.AttendanceDate;
+      const originalDateString = Maindata.AttendanceDate;
       const originalDate = new Date(originalDateString);
       const year = originalDate.getFullYear();
       const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
@@ -34,16 +25,16 @@ export default class ServiceNameService {
       query = query.where("AttendanceDate", formattedDate);
     }
 
-    const resp: any[] = [];
-    const queryResult = await query;
+    const response: any[] = [];
+    const Result = await query;
+    const data: any = {};
 
-    queryResult.forEach(function (val) {
-      const data: any = {};
+    Result.forEach(function (val) {
       data["Id"] = val.Id;
-      data["EmployeeId"] = val.EmployeeId;
+    data["EmployeeId"] = val.EmployeeId;
       data["EntryImage"] = val.EntryImage;
-      data["TimeIn"] = val.TimeIn;
-      data["TimeOut"] = val.TimeOut;
+    data["TimeIn"] = val.TimeIn;
+    data["TimeOut"] = val.TimeOut;
       data["AttendanceDate"] = new Date(val.AttendanceDate).toLocaleString(
         "en-IN",
         { timeZone: "Asia/Kolkata" }
@@ -54,8 +45,8 @@ export default class ServiceNameService {
       data["TimeInEditStatus"] = val.TimeInEditStatus;
       data["TimeOutEditStatus"] = val.TimeOutEditStatus;
       data["device"] = val.device;
-      resp.push(data);
+      response.push(data);
     });
-    return resp;
+    return response;
   }
 }

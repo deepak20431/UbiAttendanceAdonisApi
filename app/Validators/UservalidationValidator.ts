@@ -8,7 +8,7 @@ export default class UservalidationValidator {
    
   
   static  postSchema = {schema:schema.create({
-    Id:schema.number.optional(),
+    Id:schema.number(),
     AttendanceDate:schema.date.optional({format: 'yyyy-MM-dd'}),
 
     OrganizationId:schema.number(),
