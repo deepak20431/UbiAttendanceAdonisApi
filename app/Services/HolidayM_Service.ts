@@ -27,7 +27,7 @@ export default class ServiceOne {
       .limit(perPage)
       .offset(begin);
 
-    // return query1
+   // return query1
 
     query1.forEach(function (val) {
       const data: any = {};
