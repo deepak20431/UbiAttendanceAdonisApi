@@ -3,12 +3,15 @@ import moment from 'moment';
 
 export default class LogicsOnly {
   public static async getAttendances__bothchange(data: any) {
+
     let query: any = Database.from('AttendanceMainMaster')
-      .innerJoin('AttendanceChildMaster', 'AttendanceMainMaster.Id', 'AttendanceChildMaster.Id')
+      .join('AttendanceChildMaster', 'AttendanceMainMaster.Id', 'AttendanceChildMaster.Id')
+      .join('ShiftMaster','')
       .where('OrganizationId', data.orgId)
       .select('*')
-
+      
      if (data.date == undefined) {
+
         let currDate =  moment().format("YYYY-MM-DD");
         query = query.where('AttendanceDate', currDate);
     } 
