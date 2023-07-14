@@ -46,6 +46,7 @@ export default class LogicsOnly {
       data["EmployeeCode"] = val.EmployeeCode;
       data["FirstName"] = val.FirstName;
       data["LastName"] = val.LastName;
+      data["DesignationName"] = val.Name;
       data["Dept_id"] = val.Dept_id;
       data["Desg_id"] = val.Desg_id;
       data["ShiftId"] = val.ShiftId;
