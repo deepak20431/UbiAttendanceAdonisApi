@@ -8,11 +8,11 @@ export default class AttendancesValidator extends BaseValidator{
   super()
  }
    static newPostSchema = {schema:schema.create({
-    empId:schema.number.optional(),
+    empId:schema.number(),
     orgId:schema.number(),
     shiftId:schema.number.optional(),
-    deptId:schema.number.optional(),
-    desigId:schema.number.optional(),
+    deptId:schema.number(),
+    desigId:schema.number(),
     date:schema.date.optional({format: 'yyyy-MM-dd'})
     })
      ,message:BaseValidator.messages
