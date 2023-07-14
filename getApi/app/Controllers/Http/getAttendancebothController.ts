@@ -5,9 +5,6 @@ import getAttendancebothService from 'App/Services/getAttendancebothService';
 export default class getAttendanceboth{
 
     public async getAttendance({ request,response }: HttpContextContract){
-
-
-        // const {orgid,empid,inpdate} = request.all();
         
         const a = await request.validate(getAttendancebothValidator.getAttendancebothschema);
 
