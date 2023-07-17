@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
-import { Group } from '@japa/runner'
+//import { Group } from '@japa/runner'
 
 
 Route.get("/book/" ,() =>{
@@ -65,3 +65,4 @@ Route.get('/getSet','GetSetKioskPinsController.getSetKioskPin')
 Route.get('/getAttendances','getAttendances_Controller.index')
 
 // Route.get('/getSet','GetSetKioskPinsController.getSetKioskPin').name='route';
+ Route.get('/editOnly','getAttendances_Controller.edit')
