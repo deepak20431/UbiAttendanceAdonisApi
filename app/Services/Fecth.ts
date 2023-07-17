@@ -78,10 +78,27 @@ let carbyindex = carNames.at(index);
 // return carbyindex;
 
 
-const car2 = new Array("Saab", "Volvo", "90");//creating a new array
-car2[0] = "Opel";
-car2.push('apple')
- return car2
+const car2 = new Array("Saab", "Volvo", "Kia");//creating a new array
+// car2[0] = "Opel";
+// car2.push('apple')
+//  return car2.sort()   // Sorts the array
+
+//  const p:any = [];
+// p[0] = "John";
+// p[1] = "Doe";
+// p[2] = 46;
+// //  return p.length;    // Will return 3
+//  return p[0];    
+
+
+ const q = [];
+q["firstName"] = "John";
+q["lastName"] = "Doe";
+q["age"] = 46;
+//  return q.length;     // Will return 0
+ console.log(q[0])
+  
+
 let fruit = car2[car2.length - 1];
 
 return fruit
@@ -92,8 +109,8 @@ return car2_tostring
 
 
 // Array Object
-const person = {firstName:"John", lastName:"Doe", age:46};
-return person
+const p = {firstName:"John", lastName:"Doe", age:46};
+return p
 
 
   }
