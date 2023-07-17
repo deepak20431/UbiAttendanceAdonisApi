@@ -19,4 +19,18 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-Route.get('/user','UsersController.index')
+import './routes/Posts'
+import { HttpContext } from '@adonisjs/core/build/standalone'
+import UsersController from 'App/Controllers/Http/HolidayMastersController'
+// Route.get('/',()=>{
+//     return 'Hello world'
+// })
+ 
+Route.get('/test','UsersController.update')
+
+// Route.get('/test/:id/:p','UsersController.destroy')
+
+
+Route.get('/posts', async (ctx) => {
+    return new UsersController().update(ctx)
+  })
