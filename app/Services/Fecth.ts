@@ -1,118 +1,88 @@
 import Database from "@ioc:Adonis/Lucid/Database";
-import moment from "moment-timezone";
-
+import moment, { min } from "moment-timezone";
+import { DateTime } from "luxon";
 export default class ServiceNameService {
   static async Fecth(Maindata) {
-    const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
+    const datetimeString = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
 
-    console.log(currentDateTime)
-
-
-    var query: any = Database.from("AttendanceMainMaster as A")
-      .innerJoin("DepartmentMaster as DM", "A.Dept_id", "=", "DM.Id")
-
-      .innerJoin("DesignationMaster as DSm", "A.Desg_id", "=", "DSm.Id")
-      .innerJoin("ShiftMaster as S", "A.ShiftId", "=", "S.Id")
-      .innerJoin("EmployeeMaster as EM", "A.EmployeeId", "=", "EM.Id")
-      .innerJoin("AttendanceChildMaster as AC", "A.Id", "=", "AC.Id")
-      .where("A.OrganizationId", "=", Maindata.OrganizationId)
-      .select(
-        "A.Id as A_ID","DM.Id","DM.OrganizationId as DM_O","A.OrganizationId","A.Desg_id","A.SuspiciousTimeInStatus","A.device"
-        ,"A.SuspiciousTimeOutStatus","A.SuspiciousDeviceTimeInStatus", "S.HalfdayHours",
-       
-        Database.raw(`CASE
-          WHEN S.shifttype = 1 THEN SUBTIME(A.TotalLoggedHours, S.HoursPerDay)
-          ELSE (
-            CASE
-              WHEN A.TimeIn != '00:00:00' AND A.TimeOut != '00:00:00' THEN (
-                CASE
-                  WHEN A.timeoutdate != '0000-00-00' THEN (
-                    CASE
-                      WHEN S.shifttype = 2 AND A.timeoutdate = A.timeindate THEN SUBTIME(
-                        TIMEDIFF(CONCAT(A.timeoutdate, ' ', A.TimeOut), CONCAT(A.AttendanceDate, ' ', A.TimeIn)),
-                        TIMEDIFF(CONCAT(DATE_ADD(A.AttendanceDate, INTERVAL 1 DAY), ' ', S.TimeOut), CONCAT(A.AttendanceDate, ' ', S.TimeIn))
-                      )
-                      ELSE SUBTIME(
-                        TIMEDIFF(CONCAT(A.timeoutdate, ' ', A.TimeOut), CONCAT(A.AttendanceDate, ' ', A.TimeIn)),
-                        TIMEDIFF(CONCAT(A.timeoutdate, ' ', S.TimeOut), CONCAT(A.AttendanceDate, ' ', S.TimeIn))
-                      )
-                    END
-                  )
-                  ELSE '00:00:00'
-                END
-              )
-              ELSE '00:00:00'
-            END
-          )
-        END AS Overtime,SUBSTRING_INDEX(A.EntryImage, '.', -1) as ExtensionEntryImage,
-        SUBSTRING_INDEX(A.ExitImage, '.', 1) as ExtensionExitImage,
-        TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(A.TotalLoggedHours)/60)) * 60), '%H:%i:%s') AS loggedhours,
-        TiMEDIFF(S.TimeOut,S.TimeIn)as sloggedh
+    // console.log(currentDateTime  //2023-07-17 15:28:11
 
 
 
-      `))
+
+//     // Separate the date and time parts using string manipulation
+//     // const date = datetimeString.split(' ')[0]; // "2023-07-17"
+//     // return date
+//     const time = datetimeString.split(' ')[1];
+//     // return time
+
+//     const [hours, minutes] = time.split(':');
+
+//     // return minutes
+
+//     const formattedHours = (parseInt(hours, 10) % 12) || 12; // Handle midnight (00:00) as 12
+
+// // Format the time as "h:mm" (12-hour format with no leading zeros)
+// const formattedTime = `${formattedHours}:${minutes}`;
+
+// return formattedTime
 
 
-      
-
-    
-      
-      return query
-      
-      
-    
 
 
-    if (Maindata.ShiftId != undefined) {
-      query = query.where("A.ShiftId", Maindata.ShiftId);
-    }
+const timeString = '15:41:58';
 
-    if (Maindata.DesgnId != undefined) {
-      query = query.where("A.Desg_id", Maindata.ShiftId);
-    }
-    if (Maindata.DeptId != undefined) {
-      query = query.where("A.Desg_id", Maindata.ShiftId);
-    }
-    if (Maindata.attendanceid == 1) {
-      query = query.whereIn("A.AttendanceStatus", [1, 3, 5]);
-    } else if (Maindata.attendanceid == 2) {
-      query = query.where("A.AttendanceStatus", 2);
-    }
-    if (Maindata.AttendanceDate == undefined) {
-      let currDate = moment().format("YYYY-MM-DD");
+// Separate hours and minutes using the colon (:) as the delimiter
+const [hours, minutes] = timeString.split(':');
 
-      query = query.where("A.AttendanceDate", currDate);
-    } else {
-      const formattedDate = Maindata.AttendanceDate.toFormat("yyyy-MM-dd");
+// Convert hours to 12-hour format and remove leading zeros
+const formattedHours = (parseInt(hours, 10) % 12) || 12; // Handle midnight (00:00) as 12
 
-      query = query.where("A.AttendanceDate", formattedDate);
-    }
+// Format the time as "h:mm" (12-hour format with no leading zeros)
+const formattedTime = `${formattedHours}:${minutes}`;
 
-    const response: any[] = [];
-    const Result = await query;
-    const data: any = {};
+// return formattedTime
+// const startdate = '2020/01/09';
+// const begin  = DateTime.fromISO(startdate)
+// return begin null
 
-    Result.forEach(function (val) {
-      data["Id"] = val.Id;
-      data["EmployeeId"] = val.EmployeeId;
-      data["EntryImage"] = val.EntryImage;
-      data["TimeIn"] = val.TimeIn;
-      data["TimeOut"] = val.TimeOut;
-      data["AttendanceDate"] = new Date(val.AttendanceDate).toLocaleString(
-        "en-IN",
-        { timeZone: "Asia/Kolkata" }
-      );
-      data["OrganizationId "] = val.OrganizationId;
-      data["Name "] = val.Name;
-      data["ShiftId"] = val.ShiftId;
-      data["OwnerId"] = val.OwnerId;
-      data["Overtime"] = val.Overtime;
-      data["TimeInEditStatus"] = val.TimeInEditStatus;
-      data["TimeOutEditStatus"] = val.TimeOutEditStatus;
-      data["device"] = val.device;
-      response.push(data);
-    });
-    return response;
+
+
+
+
+
+const startdate = '2020-01-09';
+const begin  = DateTime.fromISO(startdate)
+
+// return begin"2020-01-09T00:00:00.000+05:30"
+// const formattdate = begin.toFormat('yyyy/MM/dd')
+// return formattdate2020/01/09
+
+const newDate = begin.plus({days:1})  //"2020-01-10T00:00:00.000+05:30"
+const changeformate = newDate.toFormat('yyyy-MM-dd')
+// return changeformate
+// const newDate = begin.minus({days:1})  //"2020-01-10T00:00:00.000+05:30"
+// const changeformat = newDate.toFormat('yyyy-MM-dd')
+// return changeformat
+const cars:any = ["Saab", "Volvo", "BMW"];
+const carNames:any = [];
+
+for (let i = 0; i < cars.length; i++) {
+  carNames.push(cars[i]);
+}
+let index = 1;
+let carbyindex = carNames.at(index);
+// let carbyindex = carNames.at(2);
+
+
+// return carbyindex;
+
+
+const car2 = new Array("Saab", "Volvo", "90");//creating a new array
+car2[0] = "Opel";
+ const car2_tostring = car2.toString();
+
+return car2_tostring
+
   }
 }
