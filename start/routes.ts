@@ -20,4 +20,3 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 Route.get('/user','UsersController.index')
-Route.get('/user1','UsersController.create')
