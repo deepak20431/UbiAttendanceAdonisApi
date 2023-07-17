@@ -80,9 +80,21 @@ let carbyindex = carNames.at(index);
 
 const car2 = new Array("Saab", "Volvo", "90");//creating a new array
 car2[0] = "Opel";
+car2.push('apple')
+ return car2
+let fruit = car2[car2.length - 1];
+
+return fruit
  const car2_tostring = car2.toString();
 
 return car2_tostring
+
+
+
+// Array Object
+const person = {firstName:"John", lastName:"Doe", age:46};
+return person
+
 
   }
 }
