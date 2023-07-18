@@ -12,4 +12,7 @@ export default class User1sController {
         return response.json(result)
 
     }
+
+    public async edit({}:HttpContextContract){}
+    
 }
