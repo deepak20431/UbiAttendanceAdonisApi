@@ -18,9 +18,13 @@ Route.patch("/",() =>{
 })
 
 //-------------------------------------------------------------
-Route.get('/holidayM','HolidayMastersController.index')
-Route.get('/holidayinsert','HolidayMastersController.create')
-Route.get('/holidaysFetch','HolidayMastersController.store')
+Route.group(()=>{
+    Route.get('/','HolidayMastersController.index')
+    Route.get('/insert','HolidayMastersController.create')
+    Route.get('/Fetch','HolidayMastersController.store')
+}).prefix('HolidayMastersController')
+
+
 
 //--------------------------------------------------------------
 
