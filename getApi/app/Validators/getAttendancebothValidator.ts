@@ -9,12 +9,15 @@ export default class getAttendancebothValidator  {
     static getAttendancebothschema = {schema:schema.create({
       OrganizationId:schema.number(),
       EmployeeId:schema.number.optional(),
-      date: schema.date.optional({
+      startdate: schema.date.optional({
         format: 'yyyy-MM-dd',
       }),
-      ShiftId:schema.number(),
-      Desg_id:schema.number(),
-      Dept_id:schema.number()      
+      enddate: schema.date.optional({
+        format: 'yyyy-MM-dd',
+      }),
+      ShiftId:schema.number.optional(),
+      Desg_id:schema.number.optional(),
+      Dept_id:schema.number.optional()      
     }),message:BaseValidator.messages
     }
     
