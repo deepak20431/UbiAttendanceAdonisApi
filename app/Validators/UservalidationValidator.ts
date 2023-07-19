@@ -8,11 +8,23 @@ export default class UservalidationValidator {
    
   
   static  postSchema = {schema:schema.create({
-    Id:schema.number(),
-    AttendanceDate:schema.date.optional({format: 'yyyy-MM-dd'}),
+    // Id:schema.number.optional(),
+    AttendanceDate:schema.date({format: 'yyyy-MM-dd'}),
+    startDate:schema.date({format: 'yyyy-MM-dd'}),
+    endDate:schema.date({format: 'yyyy-MM-dd'}),
 
-    OrganizationId:schema.number(),
-    EmployeeId:schema.number.optional()
+
+
+
+    // ShiftId:schema.number(),
+    // DesignId:schema.number(),
+    // DeptId:schema.number(),
+    // ZoneId:schema.number(),
+    // attendanceid:schema.number(),
+
+    // searchValue:schema.string(),
+    OrganizationId:schema.number.optional(),
+    // EmployeeId:schema.number()
 
 
    
