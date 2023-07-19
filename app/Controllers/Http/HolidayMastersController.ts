@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Validator from 'App/Validators/Validator'
 import ServiceOne from 'App/Services/HolidayM_Service'
 import Database from '@ioc:Adonis/Lucid/Database'
+import HolidayM from 'App/Models/HolidayM'
 
 export default class User1sController {
 
@@ -32,10 +33,11 @@ export default class User1sController {
 
   public async store({response}: HttpContextContract) {   //  fetching common data from holidaymaster & holidays
 
-    const show = await Database
-    .from('holidaymaster')
-    .innerJoin('holidays',' holidaymaster.Id','holidays.HM_Id')
-    .select("*")
+    // const show = await Database
+    // .from('holidaymaster')
+    // .innerJoin('holidays',' holidaymaster.Id','holidays.HM_Id')
+    // .select("*")
+return "Heloo"
     return response.json(show)
 
     // const show2 = await HolidayM.all()  // fetched all data from HolidayM -model
