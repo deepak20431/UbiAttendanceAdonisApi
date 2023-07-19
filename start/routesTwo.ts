@@ -1,4 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/usershiftplanner','GetSetKioskPinsController.usershiftplanner')
+// Route.get("/book/" ,() =>{
+//     return "Hello AdonisJs with Id "
+// })
 

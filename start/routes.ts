@@ -24,6 +24,7 @@
  Route.get('/getSet','GetSetKioskPinsController.getSetKioskPin').name='route';
  Route.get('/setQrKioskPin','setQrKioskPinController.setQrKioskPin').name='setQrKioskPin';
 
-// Route.get('/users/:id', 'UserController.show').as('user').name('user')
+
+ Route.get ('/getEmployeesList','getEmployeesListController.getEmployeesList')
 
 
