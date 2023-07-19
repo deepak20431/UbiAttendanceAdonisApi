@@ -9,7 +9,13 @@ export default class UservalidationValidator {
   
   static  postSchema = {schema:schema.create({
     // Id:schema.number.optional(),
-    // AttendanceDate:schema.date.optional({format: 'yyyy-MM-dd'}),
+    AttendanceDate:schema.date({format: 'yyyy-MM-dd'}),
+    startDate:schema.date({format: 'yyyy-MM-dd'}),
+    endDate:schema.date({format: 'yyyy-MM-dd'}),
+
+
+
+
     // ShiftId:schema.number(),
     // DesignId:schema.number(),
     // DeptId:schema.number(),
@@ -17,7 +23,7 @@ export default class UservalidationValidator {
     // attendanceid:schema.number(),
 
     // searchValue:schema.string(),
-    OrganizationId:schema.number(),
+    OrganizationId:schema.number.optional(),
     // EmployeeId:schema.number()
 
 
