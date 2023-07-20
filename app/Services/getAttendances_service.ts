@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 export default class LogicsOnly {
 
   public static async getAttendances__bothchange(data: any) {
-
+ 
     let query: any = Database.from("AttendanceMainMaster as A")
       .innerJoin("EmployeeMaster as E","A.EmployeeId","E.Id")
       .innerJoin("DepartmentMaster as D","A.Dept_id","D.Id")
