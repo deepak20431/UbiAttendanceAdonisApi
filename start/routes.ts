@@ -1,24 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
+//import getAttendances from 'App/Controllers/Http/getAttendances_Controller'
 //import { Group } from '@japa/runner'
-
-
-Route.get("/book/" ,() =>{
-     return "Hello AdonisJs with Id "
-})
-
-Route.put("/",() =>{
-    return "Hello AdonisJs"
-})
-
-Route.post("/routes",() =>{
-    return "Hello AdonisJs"
-})
-
-Route.patch("/",() =>{
-    return "Hello AdonisJs"
-})
-
-
 
 
 //---------------Grouping---------
@@ -31,14 +13,7 @@ Route.group(()=>{
 
 }).prefix("/Users")
 
-
-
-
-
-
 //-------------------------------------------------------------
-
-
 
 Route.get('/holidayM/index/','HolidayMastersController.index')
 Route.get('/holidayM/store','HolidayMastersController.store')
@@ -59,10 +34,17 @@ Route.get('/holidaysFetch','HolidayMastersController.store')
 
 //--------------------------------------------------------------
 
-Route.get('/getSet','GetSetKioskPinsController.getSetKioskPin')
-//--------------------------------------------------------------
+//Route.get('/getAttendances','getAttendances_Controller.index')
 
-Route.get('/getAttendances','getAttendances_Controller.index')
+// Route.get('/getAttendances', async (ctx) => {
+//     return new getAttendances().index(ctx)
+//   })
 
-// Route.get('/getSet','GetSetKioskPinsController.getSetKioskPin').name='route';
- Route.get('/editOnly','getAttendances_Controller.edit')
+  Route.get('/getAttendances', async (ctx) => {
+    const { default: getAttendances } = await import(
+        'App/Controllers/Http/getAttendances_Controller'
+    )
+    return new getAttendances().index(ctx)
+  })
+
+

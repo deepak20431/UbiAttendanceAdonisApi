@@ -3,8 +3,8 @@ import moment from "moment-timezone";
 
 export default class LogicsOnly {
 
-  public static async getAttendances__bothchange(data: any) {
- 
+  public static async getAttendances__bothchange(data: any){
+
     let query: any = Database.from("AttendanceMainMaster as A")
       .innerJoin("EmployeeMaster as E","A.EmployeeId","E.Id")
       .innerJoin("DepartmentMaster as D","A.Dept_id","D.Id")
@@ -35,7 +35,7 @@ export default class LogicsOnly {
       TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(A.TotalLoggedHours) / 60)) * 60), '%H:%i:%s') AS loggedhours
       `))
 
-      let query2: any = Database.from("ArchiveAttendanceMaster as AA")
+    let query2: any = Database.from("ArchiveAttendanceMaster as AA")
       .innerJoin("EmployeeMaster as E","AA.EmployeeId","E.Id")
       .innerJoin("DepartmentMaster as D","AA.Dept_id","D.Id")
       .innerJoin("DesignationMaster as DM","AA.Desg_id","DM.Id")
@@ -64,22 +64,17 @@ export default class LogicsOnly {
        SUBSTRING_INDEX(AA.ExitImage, "s3", 1) as ExitImage,
        TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(AA.TotalLoggedHours) / 60)) * 60), '%H:%i:%s') AS loggedhours
        `))
- 
+
     const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     // console.log(currentDateTime)
 
   if(data.searchval == undefined){
   
-   if (data.date == undefined) {
+   if (data.date == undefined){
         let currDate = moment().format("YYYY-MM-DD");
         query = query.where("A.AttendanceDate", currDate)
         query2 = query2.where("AA.AttendanceDate", currDate)
-      } 
-      else{
-        const formattedDate = data.date.toFormat('yyyy-MM-dd')
-        query = query.where("A.AttendanceDate",formattedDate)
-        query2 = query2.where("AA.AttendanceDate",formattedDate)
-      }
+     
       if(data.empId !=undefined){
   
         query = query.where("A.EmployeeId",data.empId)
@@ -100,22 +95,29 @@ export default class LogicsOnly {
         query2 = query2.where("AA.Desg_id",data.desigId)
       }else{
          return "Please fill Your Designation_Id";
-  }
+      }
       if(data.shiftId !=undefined){
         
         query = query.where("A.ShiftId",data.shiftId)
         query2 = query2.where("AA.ShiftId",data.shiftId)
       }else{
         return "Please fill Your Shift_Id";
-  }
+      }
+    } 
+    else{
+     const startDate = data.date.toFormat('yyyy-MM-dd')
+     const LastDAte = data.lastDate.toFormat('yyyy-MM-dd')
+      query = query.whereBetween("A.AttendanceDate",[startDate,LastDAte])
+      query2 = query2.whereBetween("AA.AttendanceDate",[startDate,LastDAte])
+    }
   }else{
-    query = query.where("E.FirstName",data.searchval)
-    query2 = query2.where("E.FirstName",data.searchval)
+      query = query.where("E.FirstName",data.searchval)
+     query2 = query2.where("E.FirstName",data.searchval)
   }
   
-      let resp: any[] = [];
-      
-    const queryResult:any = await query.union(query2);
+    let resp: any[] = [];  
+
+    const queryResult:any = await query.union(query2)
     queryResult.forEach(function (val) {
       const data: any = {};
       data["Id"] = val.Id;
@@ -145,7 +147,6 @@ export default class LogicsOnly {
       data["HoursPerDay"] = val.HoursPerDay;
       data["HalfdayHours"] = val.HalfdayHours;
       data["HalfdayStatus"] = val.HalfdayStatus;
-
       resp.push(data);
     });
       return resp;

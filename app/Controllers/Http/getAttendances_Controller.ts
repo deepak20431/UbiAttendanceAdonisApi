@@ -3,7 +3,7 @@ import AttendancesValidator from 'App/Validators/getAttendances_Validator'
 import LogicsOnly from 'App/Services/getAttendances_service'
  
 
-export default class User1sController {
+export default class getAttendances {
 
     public async index({request,response}: HttpContextContract){ 
 
@@ -11,8 +11,5 @@ export default class User1sController {
         const result = await LogicsOnly.getAttendances__bothchange(Value)
         return response.json(result)
 
-    }
-
-    public async edit({}:HttpContextContract){}
-    
+    }   
 }
