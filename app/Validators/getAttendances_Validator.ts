@@ -13,7 +13,9 @@ export default class AttendancesValidator extends BaseValidator{
     shiftId:schema.number.optional(),
     deptId:schema.number.optional(),
     desigId:schema.number.optional(),
-    date:schema.date.optional({format: 'yyyy-MM-dd'})
+    date:schema.date.optional({format: 'yyyy-MM-dd'}),
+    lastDate:schema.date.optional({format:'yyyy-MM-dd'}),
+    searchval:schema.string.optional()
     })
      ,message:BaseValidator.messages
    }
