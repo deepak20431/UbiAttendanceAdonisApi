@@ -65,58 +65,44 @@ export default class LogicsOnly {
        TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(AA.TotalLoggedHours) / 60)) * 60), '%H:%i:%s') AS loggedhours
        `))
 
-    const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
+    const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
     // console.log(currentDateTime)
 
   if(data.searchval == undefined){
-  
-   if (data.date == undefined){
+      if (data.FirstDate == undefined || data.SecondDate == undefined ){
         let currDate = moment().format("YYYY-MM-DD");
         query = query.where("A.AttendanceDate", currDate)
         query2 = query2.where("AA.AttendanceDate", currDate)
-     
+      }
+      if(data.FirstDate!=undefined && data.SecondDate!=undefined){
+        const startDate = data.FirstDate.toFormat('yyyy-MM-dd')
+        const LastDAte = data.SecondDate.toFormat('yyyy-MM-dd')
+        query = query.whereBetween("A.AttendanceDate",[startDate,LastDAte])
+        query2 = query2.whereBetween("AA.AttendanceDate",[startDate,LastDAte])
+      }
       if(data.empId !=undefined){
-  
         query = query.where("A.EmployeeId",data.empId)
         query2 = query2.where("AA.EmployeeId",data.empId)
-      }else{
-         return("Please fill Your EmployeeId");      
       }
       if(data.deptId !=undefined){
-  
         query = query.where("A.Dept_id",data.deptId)
         query2 = query2.where("AA.Dept_id",data.deptId)
-      }else{
-         return("Please fill Your Department_Id");      
       }
       if(data.desigId !=undefined){
-  
         query = query.where("A.Desg_id",data.desigId)
         query2 = query2.where("AA.Desg_id",data.desigId)
-      }else{
-         return "Please fill Your Designation_Id";
       }
       if(data.shiftId !=undefined){
-        
         query = query.where("A.ShiftId",data.shiftId)
         query2 = query2.where("AA.ShiftId",data.shiftId)
-      }else{
-        return "Please fill Your Shift_Id";
       }
-    } 
-    else{
-     const startDate = data.date.toFormat('yyyy-MM-dd')
-     const LastDAte = data.lastDate.toFormat('yyyy-MM-dd')
-      query = query.whereBetween("A.AttendanceDate",[startDate,LastDAte])
-      query2 = query2.whereBetween("AA.AttendanceDate",[startDate,LastDAte])
-    }
   }else{
       query = query.where("E.FirstName",data.searchval)
-     query2 = query2.where("E.FirstName",data.searchval)
+      query2 = query2.where("E.FirstName",data.searchval)
   }
   
     let resp: any[] = [];  
-
+    
     const queryResult:any = await query.union(query2)
     queryResult.forEach(function (val) {
       const data: any = {};
@@ -152,3 +138,4 @@ export default class LogicsOnly {
       return resp;
   }
 }
+
