@@ -3,8 +3,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseValidator from './BaseValidator'
 
 
-export default class getAttendancebothValidator  {
-    constructor(protected ctx: HttpContextContract) {}
+export default class getAttendancebothValidator extends BaseValidator  {
+    constructor(protected ctx: HttpContextContract) {
+      super()
+    }
   
     static getAttendancebothschema = {schema:schema.create({
       OrganizationId:schema.number(),
@@ -17,7 +19,8 @@ export default class getAttendancebothValidator  {
       }),
       ShiftId:schema.number.optional(),
       Desg_id:schema.number.optional(),
-      Dept_id:schema.number.optional()      
+      Dept_id:schema.number.optional() ,
+      searchvalue:schema.string.optional()     
     }),message:BaseValidator.messages
     }
     

@@ -1,14 +1,13 @@
 
-
 export default class BaseValidator {
    
-    static messages = {
+     public static messages = {
       '*':(field, rule) => {
          return `${rule} validation error on ${field}`
         },
         
           required:`{{field}} is required`,
-          
+          maxLength:'length is too big'
        }
 
      }

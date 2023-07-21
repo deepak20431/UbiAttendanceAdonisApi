@@ -5,24 +5,20 @@ export default class getAttendancebothService {
   public static async getAttendance(a) {
 
     const res: any[] = [];
-    var searchvalue = 'Ms. Kat'
 
     // const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     // return currentDateTime;
-    var startdate = a.startdate.toFormat('yyyy-MM-dd');
-    var enddate = a.enddate.toFormat('yyyy-MM-dd');
 
-    var query: any = Database.from('AttendanceMainMaster as AM')
+    var query = Database.from('AttendanceMainMaster as AM')
       .innerJoin('DepartmentMaster as DM', 'AM.Dept_id', '=', 'DM.Id')
       .innerJoin('DesignationMaster as DSm', 'AM.Desg_id', '=', 'DSm.Id')
       .innerJoin('ShiftMaster as SM', 'AM.ShiftId', '=', 'SM.Id')
       .innerJoin('EmployeeMaster as EM', 'AM.EmployeeId', '=', 'EM.Id')
-      .where('AM.OrganizationId', '=', a.OrganizationId) 
-      .whereBetween('AM.AttendanceDate', [startdate, enddate])
+      .where('AM.OrganizationId', '=', a.OrganizationId)
       .select('AM.Id', 'AM.EmployeeId', 'EM.CurrentContactNumber', 'DM.Name',
         'EM.EmployeeCode', 'AM.ShiftId', 'AM.Dept_id', 'AM.Desg_id', 'AM.AttendanceDate',
         'AM.TimeIn', 'AM.TimeOut', 'AM.EntryImage', 'AM.ExitImage', 'AM.checkinloc',
-        'AM.checkoutloc', 'AM.TimeInDeviceName', 'AM.remark', 'AM.remarks', 'AM.TimeInConfidence','AM.OrganizationId'
+        'AM.checkoutloc', 'AM.TimeInDeviceName', 'AM.remark', 'AM.remarks', 'AM.TimeInConfidence', 'AM.OrganizationId'
         , 'AM.TimeOutConfidence', 'SM.TimeInGrace', 'AM.TimeInGeoFence'
         , 'AM.TimeOutGeoFence', 'AM.FakeTimeOutTimeStatus',
         'AM.FakeTimeInTimeStatus', 'AM.FakeLocationStatusTimeIn', 'AM.FakeLocationStatusTimeOut'
@@ -47,8 +43,8 @@ export default class getAttendancebothService {
                     )
                   END AS overtime, 
                   SUBSTRING_INDEX(EntryImage,'.com/',-1) as EntryImage,
-                  SUBSTRING_INDEX(ExitImage,'.com/',-1) as ExitImage `))
-    
+                  SUBSTRING_INDEX(ExitImage,'.com/',-1) as ExitImage 
+                  `))
 
     var query1 = Database.from('ArchiveAttendanceMaster as A')
       .innerJoin('DepartmentMaster as DM', 'A.Dept_id', '=', 'DM.Id')
@@ -56,11 +52,10 @@ export default class getAttendancebothService {
       .innerJoin('ShiftMaster as SM', 'A.ShiftId', '=', 'SM.Id')
       .innerJoin('EmployeeMaster as EM', 'A.EmployeeId', '=', 'EM.Id')
       .where('A.OrganizationId', '=', a.OrganizationId)
-      .whereBetween('A.AttendanceDate', [startdate, enddate])
       .select('A.Id', 'A.EmployeeId', 'EM.CurrentContactNumber', 'DM.Name',
         'EM.EmployeeCode', 'A.ShiftId', 'A.Dept_id', 'A.Desg_id', 'A.AttendanceDate',
         'A.TimeIn', 'A.TimeOut', 'A.EntryImage', 'A.ExitImage', 'A.checkinloc',
-        'A.checkoutloc', 'A.TimeInDeviceName', 'A.remark', 'A.remarks', 'A.TimeInConfidence','A.OrganizationId'
+        'A.checkoutloc', 'A.TimeInDeviceName', 'A.remark', 'A.remarks', 'A.TimeInConfidence', 'A.OrganizationId'
         , 'A.TimeOutConfidence', 'SM.TimeInGrace', 'A.TimeInGeoFence'
         , 'A.TimeOutGeoFence', 'A.FakeTimeOutTimeStatus',
         'A.FakeTimeInTimeStatus', 'A.FakeLocationStatusTimeIn', 'A.FakeLocationStatusTimeOut'
@@ -85,52 +80,43 @@ export default class getAttendancebothService {
                     )
                   END AS overtime, 
                   SUBSTRING_INDEX(EntryImage,'.com/',-1) as EntryImage,
-                  SUBSTRING_INDEX(ExitImage,'.com/',-1) as ExitImage `))
-                  
-                 
-                  
-    if (a.date == undefined) {
-      var todaydate = new Date();
-      var curdate = moment(todaydate).utcOffset('Asia/Kolkata').format('YYYY-MM-DD');
-      query = query.where('AttendanceDate', curdate);
-      query1 = query1.where('AttendanceDate', curdate);
-    }
+                  SUBSTRING_INDEX(ExitImage,'.com/',-1) as ExitImage 
+                  `))
 
-    if (a.Dept_id != undefined) {
-      query = query.where('AM.Dept_id', a.Dept_id);
-      query1 = query1.where('A.Dept_id', a.Dept_id);
-    }
-    else {
-      return "Please input deptid";
-    }
+  if (a.startdate == undefined || a.enddate == undefined) {
+    var todaydate = new Date();
+    var curdate = moment(todaydate).utcOffset('Asia/Kolkata').format('YYYY-MM-DD');
+    query = query.where('AM.AttendanceDate', curdate)
+    query1 = query1.where('A.AttendanceDate', curdate);
+  }
+  if(a.startdate!=undefined && a.enddate!=undefined){
+    var startdate = a.startdate.toFormat('yyyy-MM-dd');
+    var enddate = a.enddate.toFormat('yyyy-MM-dd');
+    query = query.whereBetween('AM.AttendanceDate',[startdate,enddate])
+    query1 = query1.whereBetween('A.AttendanceDate',[startdate, enddate])
+  }
+      if (a.Dept_id != undefined) {
+        query = query.where('AM.Dept_id', a.Dept_id)
+        query1 = query1.where('A.Dept_id', a.Dept_id)
+      }
+      if (a.Desg_id != undefined) {
+        query = query.where('AM.Desg_id', a.Desg_id)
+        query1 = query1.where('A.Desg_id', a.Desg_id)
+      }
+      if (a.ShiftId != undefined) {
+        query = query.where('AM.ShiftId', a.ShiftId)
+        query1 = query1.where('A.ShiftId', a.ShiftId)
+      }
+      if(a.EmployeeId != undefined){
+        query = query.where('AM.EmployeeId', a.EmployeeId)
+        query1 = query1.where('A.EmployeeId', a.EmployeeId)
+      }
+      if (a.searchvalue != null) {
+        query = query.where('EM.FirstName', a.searchvalue);
+        query1 = query1.where('EM.FirstName', a.searchvalue);
+      }
 
-    if (a.Desg_id != undefined) {
-      query = query.where('AM.Desg_id', a.Desg_id);
-      query1 = query1.where('A.Desg_id', a.Desg_id);
-    }
-    else {
-      return " Please input DesiId"
-    }
-
-    if (a.ShiftId != undefined) {
-      query = query.where('AM.ShiftId', a.ShiftId);
-      query1 = query1.where('A.ShiftId', a.ShiftId);
-    }
-    else {
-      return "Please input Searchvalue"
-    }
-    if (searchvalue) {
-      query = query.where('EM.FirstName', searchvalue);
-      query1 = query1.where('EM.FirstName', searchvalue);
-    }
-
-    else {
-      const inpdate = a.date.toFormat('yyyy-MM-dd');
-      query = query1.where('AttendanceDate', inpdate);
-      query1 = query1.where('AttendanceDate', inpdate);
-    }
-
-    const queryres: any = await query1.union(query);
+    const queryres = await query.union(query1)
     queryres.forEach(function (row) {
       var data = {};
       data['Id'] = row.Id;
@@ -142,6 +128,7 @@ export default class getAttendancebothService {
       data['Name'] = row.Name;
       data['EmployeeCode'] = row.EmployeeCode;
       data['AttendanceDate'] = moment(row.AttendanceDate).utcOffset('Asia/Kolkata').format('YYYY-MM-DD');
+      console.log(data['AttendanceDate'])
       data['TimeIn'] = row.TimeIn;
       data['TimeOut'] = row.TimeOut;
       data['EntryImage'] = row.EntryImage;
@@ -175,7 +162,7 @@ export default class getAttendancebothService {
       data['FirstName'] = row.FirstName;
       data['MultipletimeStatus'] = row.MultipletimeStatus;
       data['shifttype'] = row.shifttype;
-
+      
       res.push(data);
 
     })
