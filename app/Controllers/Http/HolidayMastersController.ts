@@ -37,7 +37,7 @@ export default class User1sController {
     // .from('holidaymaster')
     // .innerJoin('holidays',' holidaymaster.Id','holidays.HM_Id')
     // .select("*")
-return "Heloo"
+
     return response.json(show)
 
     // const show2 = await HolidayM.all()  // fetched all data from HolidayM -model

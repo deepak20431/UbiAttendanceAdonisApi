@@ -20,7 +20,7 @@ export default class ServiceOne {
         "Description",
         "DateTo",
         Database.raw("DATE(DateFrom) AS fromDate"),
-        Database.raw("DATEDIFF(DATE(DateTo),DATE(DateFrom))   AS DiffDate"),
+        Database.raw("DATEDIFF(DATE(DateTo),DATE(DateFrom)) AS DiffDate"),
         "DateFrom")
       .where("OrganizationId", orgId.orgId)
       .orderBy("fromDate", "asc")

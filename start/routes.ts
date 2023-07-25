@@ -1,6 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 //import { Group } from '@japa/runner'
 
+import './emproutes'
 
 Route.get("/book/" ,() =>{
      return "Hello AdonisJs with Id "
@@ -40,7 +41,7 @@ Route.group(()=>{
 
 
 
-Route.get('/holidayM/index/','HolidayMastersController.index')
+Route.get('/holidayM','HolidayMastersController.index')
 Route.get('/holidayM/store','HolidayMastersController.store')
 Route.get('/holidayM/show','HolidayMastersController.show')
 
@@ -56,6 +57,7 @@ Route.get('/holidayM/show','HolidayMastersController.show')
 
 Route.get('/holidayinsert','HolidayMastersController.create')
 Route.get('/holidaysFetch','HolidayMastersController.store')
+Route.get('/holidays','HolidayMastersController.index')
 
 //--------------------------------------------------------------
 
