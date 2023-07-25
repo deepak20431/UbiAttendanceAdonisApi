@@ -5,7 +5,6 @@ export default class DesignationService {
   // Insert Designation method
   public static async AddDesignation(a) {
     const currentDate = new Date();
-    // return a.orgidret
 
     var query = await Database.query()
       .from("DesignationMaster")
@@ -18,7 +17,7 @@ export default class DesignationService {
     const r = res.length;
 
     if (r > 0) {
-      result["status"] = -1; // if dept already exists
+      result["status"] = -1;
       return false;
     }
 
@@ -45,10 +44,22 @@ export default class DesignationService {
     return query2;
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Fetch data method
   public static async getDesignation(a) {
     const begin = (a.currentpage - 1) * a.perpage;
-    var limitBy = "";
 
     let query: any = Database.from("DesignationMaster")
       .select(
@@ -66,6 +77,9 @@ export default class DesignationService {
       query = query.offset(begin).limit(a.perpage);
     }
 
+    if (a.status != undefined) {
+      query = query.where("Archive", a.status);
+    }
     const currentDate = new Date();
 
     const result = await query;
@@ -93,29 +107,32 @@ export default class DesignationService {
           "archive"
         )
         .where("OrganizationId", a.orgid)
-        .orderBy("name", "asc"); // Assuming $limitBy contains the limit value
+        .orderBy("name", "asc");
     }
 
     return query;
   }
 
+
+
+
+
+
+  
   // Update designation Method
   public static async updateDesignation(c) {
     const result: any[] = [];
     result["status"] = 0;
     let curdate = new Date();
 
-    // const orgid =  Helper.getName(2);
-
     const query = await Database.from("DesignationMaster")
-      .select("Name", "Id")
+      .select("Id")
       .where("Name", c.design)
-      .where("OrganizationId", c.orgid)
-      .whereNot("Id", c.did);
+      .andWhere("OrganizationId", c.orgid)
+      .andWhere("Id", c.uid);
 
     const Result: any = await query;
     const r = Result.length;
-    return r;
     if (r > 0) {
       result["status"] = -1; // if dept already exists
       return false;
@@ -123,18 +140,17 @@ export default class DesignationService {
     const queryResult = await Database.from("DesignationMaster")
       .select("Name", "archive")
       .where("OrganizationId", c.orgid)
-      .where("Id", c.did)
-      .first();
+      .where("Id", c.uid);
 
     let name = "";
     let sts1 = "";
 
-    const qr = await queryResult;
-    const count1 = qr.length;
-    if (count1) {
+    const qr: any = await queryResult;
+
+    if (qr) {
       // Assign the values to the variables if a row is found
-      name = queryResult.Name;
-      sts1 = queryResult.archive;
+      name = qr.Name;
+      sts1 = qr.archive;
     }
 
     var res: any = "";
@@ -146,12 +162,13 @@ export default class DesignationService {
 
     var updateResult: any = await Database.query()
       .from("DesignationMaster")
-      .where("id", c.did)
+      .where("id", c.uid)
       .update({
         Name: c.design,
         LastModifiedDate: curdate,
         LastModifiedById: c.uid,
         archive: c.sts,
+        OrganizationId: c.orgid,
       });
 
     const updateResponse = await updateResult;
@@ -159,6 +176,6 @@ export default class DesignationService {
       c.id = c.uid;
       const date = moment().format("YY-MM-DD HH:mm:ss");
     }
-    return;
+    return updateResult;
   }
 }

@@ -25,10 +25,10 @@ export default class UserValidator  extends BaseValidator{
      static Designationschema ={
       schema:schema.create({
         orgid:schema.number(),
-        status:schema.number(),
-        pagename:schema.number(),
-        currentpage:schema.number(),
-        perpage:schema.number()
+        status:schema.number.optional(),
+        pagename:schema.number.optional(),
+        currentpage:schema.number.optional(),
+        perpage:schema.number.optional()
   
       })
      }
@@ -38,8 +38,7 @@ export default class UserValidator  extends BaseValidator{
       schema:schema.create({
         uid:schema.number(),
         design:schema.string(),
-        sts:schema.number(),
-        did:schema.number(),
+        sts:schema.number.optional(),
         orgid:schema.number()
         
       })
