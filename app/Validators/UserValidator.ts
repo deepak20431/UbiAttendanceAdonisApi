@@ -11,7 +11,7 @@ export default class UserValidator  extends BaseValidator{
   
   
   
-  
+  // Insert Designation schema
     static AddDesignationschema ={
   
    schema:schema.create({
@@ -22,6 +22,8 @@ export default class UserValidator  extends BaseValidator{
       desc: schema.string.optional(),
     })
   }
+  
+  // Fetch Designation schema
      static Designationschema ={
       schema:schema.create({
         orgid:schema.number(),
@@ -34,6 +36,7 @@ export default class UserValidator  extends BaseValidator{
      }
   
   
+    //  Update designation schema
      static updateDesignationschema={
       schema:schema.create({
         uid:schema.number(),

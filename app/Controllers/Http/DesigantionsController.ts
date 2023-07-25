@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UserValidator from 'App/Validators/UserValidator';
-import DesignationService from 'App/Services/Designation';
+import DesignationService from 'App/Services/DesignationService';
 export default class DesigantionsController {
   
   public async retreiveDesign({ request, response }: HttpContextContract) {

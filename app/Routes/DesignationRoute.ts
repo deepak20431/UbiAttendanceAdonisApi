@@ -1,6 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 
-Route.get('/users','DesigantionsController.retreiveDesign')
-Route.post('/use','DesigantionsController.AddDesign')
-Route.put('/fetch','DesigantionsController.UpdateDesign')
+Route.get('/fetch','DesigantionsController.retreiveDesign')
+Route.post('/add','DesigantionsController.AddDesign')
+Route.put('/update','DesigantionsController.UpdateDesign')
+
