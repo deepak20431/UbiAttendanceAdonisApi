@@ -28,7 +28,10 @@ export default class EmpValidator {
   static empvalid = {schema:schema.create({
     refno:schema.number(),
     empid:schema.number(),
-    status:schema.number.optional()
+    status:schema.number.optional(),
+    currentPage:schema.number.optional(),
+    perpage:schema.number.optional(),
+    searchval:schema.string.optional()
     })
      ,message:BaseValidator.messages
    }

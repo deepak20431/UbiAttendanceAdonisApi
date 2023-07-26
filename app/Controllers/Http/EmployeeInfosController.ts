@@ -9,10 +9,11 @@ export default class EmployeeInfosController {
        this.data['orgid']=validation.refno;
        this.data['adminid']=validation.empid;
        this.data['status']= validation.status?validation.status:1;
-       //console.log(this.data['status']);
-
+       this.data['currentPage']=validation.currentPage?validation.currentPage:0;
+       this.data['perpage']=validation.perpage?validation.perpage:10;
+       this.data['searchval']=validation.searchval?validation.searchval:'';
        const result = await employeeInfo.prototype.getEmployee(this.data);
-       //console.log(result);
+       return response.json(result);
 
 
                   
