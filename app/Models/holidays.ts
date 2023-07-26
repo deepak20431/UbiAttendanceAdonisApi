@@ -1,5 +1,5 @@
 import { BaseModel, column, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
-import  HolidayM from "App/Models/HolidayM";
+//import  HolidayM from "App/Models/HolidayM";
 
 export default class holidays extends BaseModel {
 

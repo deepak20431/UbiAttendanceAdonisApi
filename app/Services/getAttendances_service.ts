@@ -10,7 +10,6 @@ export default class LogicsOnly {
       .innerJoin("DepartmentMaster as D","A.Dept_id","D.Id")
       .innerJoin("DesignationMaster as DM","A.Desg_id","DM.Id")
       .innerJoin("ShiftMaster as C","A.ShiftId","C.Id")
-      .where("A.OrganizationId", data.orgId)
       .select(
       "A.Id","A.EmployeeId","D.Name","E.EmployeeCode","C.shifttype","E.FirstName","E.LastName","A.OrganizationId","A.Dept_id","A.Desg_id","A.ShiftId","E.PersonalNo","A.EntryImage","A.ExitImage","E.MultipletimeStatus","C.TimeIn","C.TimeOut","A.AttendanceDate","A.TimeInEditStatus","A.TimeOutEditStatus","A.FakeLocationStatusTimeIn","A.TotalLoggedHours","C.HoursPerDay","C.HalfdayHours"," C.HalfdayStatus",
      Database.raw(`
@@ -33,14 +32,13 @@ export default class LogicsOnly {
       SUBSTRING_INDEX(A.EntryImage, ".", 1) as EntryImage,
       SUBSTRING_INDEX(A.ExitImage, "s3", 1) as ExitImage,
       TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(A.TotalLoggedHours) / 60)) * 60), '%H:%i:%s') AS loggedhours
-      `))
+      `)).limit(2)
 
     let query2: any = Database.from("ArchiveAttendanceMaster as AA")
       .innerJoin("EmployeeMaster as E","AA.EmployeeId","E.Id")
       .innerJoin("DepartmentMaster as D","AA.Dept_id","D.Id")
       .innerJoin("DesignationMaster as DM","AA.Desg_id","DM.Id")
       .innerJoin("ShiftMaster as C","AA.ShiftId","C.Id")
-      .where("AA.OrganizationId", data.orgId)
       .select(
       "AA.Id","AA.EmployeeId","D.Name","E.EmployeeCode","C.shifttype","E.FirstName","E.LastName","AA.OrganizationId","AA.Dept_id","AA.Desg_id","AA.ShiftId","E.PersonalNo","AA.EntryImage","AA.ExitImage","E.MultipletimeStatus","C.TimeIn","C.TimeOut","AA.AttendanceDate","AA.TimeInEditStatus","AA.TimeOutEditStatus","AA.FakeLocationStatusTimeIn","AA.TotalLoggedHours","C.HoursPerDay","C.HalfdayHours"," C.HalfdayStatus",
       Database.raw(`
@@ -63,7 +61,7 @@ export default class LogicsOnly {
        SUBSTRING_INDEX(AA.EntryImage, ".", 1) as EntryImage,
        SUBSTRING_INDEX(AA.ExitImage, "s3", 1) as ExitImage,
        TIME_FORMAT(SEC_TO_TIME((ROUND(TIME_TO_SEC(AA.TotalLoggedHours) / 60)) * 60), '%H:%i:%s') AS loggedhours
-       `))
+       `)).limit(2)
 
     const currentDateTime = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
     // console.log(currentDateTime)
@@ -79,6 +77,10 @@ export default class LogicsOnly {
         const LastDAte = data.SecondDate.toFormat('yyyy-MM-dd')
         query = query.whereBetween("A.AttendanceDate",[startDate,LastDAte])
         query2 = query2.whereBetween("AA.AttendanceDate",[startDate,LastDAte])
+      }
+      if(data.orgId !=undefined){
+        query = query.where("A.OrganizationId",data.orgId)
+        query2 = query2.where("AA.OrganizationId",data.orgId)
       }
       if(data.empId !=undefined){
         query = query.where("A.EmployeeId",data.empId)
@@ -96,10 +98,10 @@ export default class LogicsOnly {
         query = query.where("A.ShiftId",data.shiftId)
         query2 = query2.where("AA.ShiftId",data.shiftId)
       }
-  }else{
+    }else{
       query = query.where("E.FirstName",data.searchval)
       query2 = query2.where("E.FirstName",data.searchval)
-  }
+    }
   
     let resp: any[] = [];  
     

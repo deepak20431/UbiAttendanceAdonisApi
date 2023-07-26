@@ -1,7 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AttendancesValidator from 'App/Validators/getAttendances_Validator'
 import LogicsOnly from 'App/Services/getAttendances_service'
- 
 
 export default class getAttendances {
 

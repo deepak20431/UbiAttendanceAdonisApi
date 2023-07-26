@@ -3,17 +3,93 @@ import Validator from 'App/Validators/Validator'
 import ServiceOne from 'App/Services/HolidayM_Service'
 import Database from '@ioc:Adonis/Lucid/Database'
 import HolidayM from 'App/Models/HolidayM'
+import holidayValidator from 'App/Validators/holidayMasterValidate'
+import moment from 'moment'
 
 export default class User1sController {
 
-  public async index({request,response}: HttpContextContract){   //HolidayMaster refer to  holidayM_services.ts
+  public async Fetchholidaymaster({request,response}: HttpContextContract){   //HolidayMaster refer to  holidayM_services.ts
     const valid:any = await request.validate(Validator.newPostSchema)
-    const result = await ServiceOne.Services1(valid)
-    console.log(request.params())
-    return response.json(result)
-              
-}
+    const result = await ServiceOne.holidaymaster(valid)
+    
+    return response.json(result)             
+  }
   
+  public async Insert({request ,response}: HttpContextContract){
+    // try {
+    
+    const val :any = await request.validate({ schema:holidayValidator.holidaySchema, messages:Validator.messages })
+    const show:any = await HolidayM.create(val) 
+    
+  //   return response.status(201).json(show);   
+  
+  // } catch (error) {
+  //   return response.status(500).json({ error: 'Failed to Insert data.' });
+  // }                 
+    await show.save()
+    return response.ok(show)
+// -----------------------------
+// const{Name,Description,OrganizationId,DateFrom,DateTo} = request.all()
+// await request.validate({ schema:holidayValidator.holidaySchema, messages:Validator.messages })
+// let currDate = moment().format("YYYY-MM-DD");
+// const result = { status: '' }
+
+// const existingHoliday = await Database.query()
+//   .from('holidaymaster')
+//   .whereBetween('DateFrom', [DateFrom, DateTo])
+//   .orWhereBetween('DateTo',[DateFrom, DateTo])
+//   .andWhere('OrganizationId', OrganizationId)
+//   .first()
+    
+//  if (existingHoliday){
+//    result.status = '2'  // Holiday already exists in database
+//    return response.json(result)
+//  }
+
+//   const query =  await Database
+//   .insertQuery() // 👈 gives an instance of insert query builder.
+//   .table('holidaymaster')
+//   .insert({Name:Name , Description:Description ,OrganizationId:OrganizationId ,
+//           DateFrom: DateFrom,DateTo:DateTo})
+//  return query;
+     
+        // Log the activity
+        //  const zone = getTimeZone(OrganizationId) // You need to implement this function
+        // const currentDateTime = moment(OrganizationId).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
+        // DateTime.local().setZone(zone)
+         //const activityDate = DateTime.local().toFormat('yy-MM-dd HH:mm:ss')
+        // const activityBy = 1
+        // const actionPerformed = `<b>${name}</b> holiday has been created by <b>${getEmpName(empid)}</b> from Attendance App`
+        // const appModule = 'Holiday'
+
+           // Log the activity
+    //     const zone = getTimeZone(OrganizationId) // You need to implement this function
+    //     DateTime.local().setZone(zone)
+    //     const activityDate = DateTime.local().toFormat('yy-MM-dd HH:mm:ss')
+    //     const activityBy = 1
+    //     const actionPerformed = `<b>${name}</b> holiday has been created by <b>${getEmpName(empid)}</b> from Attendance App`
+    //     const appModule = 'Holiday'
+    
+    //     const activityHistory = new ActivityHistoryMaster()
+    //     activityHistory.LastModifiedDate = activityDate
+    //     activityHistory.LastModifiedById = empid
+    //     activityHistory.Module = 'Attendance app'
+    //     activityHistory.ActionPerformed = actionPerformed
+    //     activityHistory.OrganizationId = OrganizationId
+    //     activityHistory.ActivityBy = activityBy
+    //     activityHistory.adminid = empid
+    //     activityHistory.AppModule = appModule
+    //     await activityHistory.save()
+    
+    //     result.status = '1' // Holiday added successfully
+    //     return response.json(result)
+    //   }
+    // }
+
+
+}
+
+
   public async create({}: HttpContextContract){
 
    const data = await Database.table('holidays').multiInsert([      // Multi-insert in holiday refers to Models/holidays.ts
@@ -37,8 +113,8 @@ export default class User1sController {
     // .from('holidaymaster')
     // .innerJoin('holidays',' holidaymaster.Id','holidays.HM_Id')
     // .select("*")
-return "Heloo"
-    return response.json(show)
+// return "Heloo"
+    // return response.json(show)
 
     // const show2 = await HolidayM.all()  // fetched all data from HolidayM -model
     // return show2
@@ -66,7 +142,81 @@ return "Heloo"
     return response.json(data)
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({}: HttpContextContract) {
+
+    // import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+    // import HolidayMaster from 'App/Models/HolidayMaster'
+    // import ActivityHistoryMaster from 'App/Models/ActivityHistoryMaster'
+    // import { DateTime } from 'luxon'
+    
+  //     public async addHoliday({ request, response }: HttpContextContract) {
+  //       const orgid = request.input('org_id', 0)
+  //       const empid = request.input('empid', 0)
+  //       const name = request.input('name', '')
+  //       const from = request.input('from', 0)
+  //       const to = request.input('to', 0)
+  //       const description = request.input('description', '')
+    
+  //       const result = { status: '' }
+    
+  //       const date = DateTime.local().toFormat('yyyy-MM-dd')
+  //       const fromDate = DateTime.fromISO(from).toFormat('yyyy-MM-dd')
+  //       const toDate = DateTime.fromISO(to).toFormat('yyyy-MM-dd')
+    
+  //       const existingHoliday = await HolidayMaster.query()
+  //         .where((query) =>
+  //           query
+  //             .whereBetween('DateFrom', [fromDate, toDate])
+  //             .orWhereBetween('DateTo', [fromDate, toDate])
+  //         )
+  //         .andWhere('OrganizationId', orgid)
+  //         .first()
+    
+  //       if (existingHoliday) {
+  //         result.status = '2' // Holiday already exists
+  //         return response.json(result)
+  //       }
+    
+  //       const newHoliday = new HolidayMaster()
+  //       newHoliday.Name = name
+  //       newHoliday.Description = description
+  //       newHoliday.DateFrom = fromDate
+  //       newHoliday.DateTo = toDate
+  //       newHoliday.DivisionId = '0'
+  //       newHoliday.OrganizationId = orgid
+  //       newHoliday.CreatedDate = date
+  //       newHoliday.CreatedById = empid
+  //       newHoliday.LastModifiedDate = date
+  //       newHoliday.LastModifiedById = empid
+  //       newHoliday.FiscalId = 1
+  //       await newHoliday.save()
+    
+  //       // Log the activity
+  //       const zone = getTimeZone(orgid) // You need to implement this function
+  //       DateTime.local().setZone(zone)
+  //       const activityDate = DateTime.local().toFormat('yy-MM-dd HH:mm:ss')
+  //       const activityBy = 1
+  //       const actionPerformed = `<b>${name}</b> holiday has been created by <b>${getEmpName(empid)}</b> from Attendance App`
+  //       const appModule = 'Holiday'
+    
+  //       const activityHistory = new ActivityHistoryMaster()
+  //       activityHistory.LastModifiedDate = activityDate
+  //       activityHistory.LastModifiedById = empid
+  //       activityHistory.Module = 'Attendance app'
+  //       activityHistory.ActionPerformed = actionPerformed
+  //       activityHistory.OrganizationId = orgid
+  //       activityHistory.ActivityBy = activityBy
+  //       activityHistory.adminid = empid
+  //       activityHistory.AppModule = appModule
+  //       await activityHistory.save()
+    
+  //       result.status = '1' // Holiday added successfully
+  //       return response.json(result)
+  //     }
+  //   }
+    
+
+  }
 
   public async update({}: HttpContextContract) {}
 

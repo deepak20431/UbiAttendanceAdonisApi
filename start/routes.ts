@@ -15,7 +15,7 @@ Route.group(()=>{
 
 //-------------------------------------------------------------
 
-Route.get('/holidayM/index/','HolidayMastersController.index')
+Route.get('/holidayM','HolidayMastersController.Fetchholidaymaster')
 Route.get('/holidayM/store','HolidayMastersController.store')
 Route.get('/holidayM/show','HolidayMastersController.show')
 
@@ -29,8 +29,9 @@ Route.get('/holidayM/show','HolidayMastersController.show')
 // }).prefix('/holid').as('data1')
 // }).prefix('/holida').as('data2')
 
-Route.get('/holidayinsert','HolidayMastersController.create')
-Route.get('/holidaysFetch','HolidayMastersController.store')
+Route.get('/holidayinsert','HolidayMastersController.Insert')
+Route.get('/holidaysFetch','HolidayMastersController.index')
+
 
 //--------------------------------------------------------------
 
