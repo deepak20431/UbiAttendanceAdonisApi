@@ -16,77 +16,31 @@ export default class User1sController {
   }
   
   public async Insert({request ,response}: HttpContextContract){
-    // try {
-    
-    const val :any = await request.validate({ schema:holidayValidator.holidaySchema, messages:Validator.messages })
-    const show:any = await HolidayM.create(val) 
-    
-  //   return response.status(201).json(show);   
-  
-  // } catch (error) {
-  //   return response.status(500).json({ error: 'Failed to Insert data.' });
-  // }                 
-    await show.save()
-    return response.ok(show)
-// -----------------------------
-// const{Name,Description,OrganizationId,DateFrom,DateTo} = request.all()
-// await request.validate({ schema:holidayValidator.holidaySchema, messages:Validator.messages })
-// let currDate = moment().format("YYYY-MM-DD");
-// const result = { status: '' }
 
-// const existingHoliday = await Database.query()
-//   .from('holidaymaster')
-//   .whereBetween('DateFrom', [DateFrom, DateTo])
-//   .orWhereBetween('DateTo',[DateFrom, DateTo])
-//   .andWhere('OrganizationId', OrganizationId)
-//   .first()
+const{Name,Description,OrganizationId,DateFrom,DateTo} = request.all()
+await request.validate({ schema:holidayValidator.holidaySchema, messages:Validator.messages })
+//let currDate = moment().format("YYYY-MM-DD");
+const result = { status: '' }
+
+const existingHoliday = await Database.query()
+  .from('holidaymaster')
+  .whereBetween('DateFrom', [DateFrom, DateTo])
+  .orWhereBetween('DateTo',[DateFrom, DateTo])
+  .andWhere('OrganizationId', OrganizationId)
+  .first()
     
-//  if (existingHoliday){
-//    result.status = '2'  // Holiday already exists in database
-//    return response.json(result)
-//  }
+ if (existingHoliday){
+   result.status = '2'  // Holiday already exists in database
+   return response.json(result)
+ }
 
-//   const query =  await Database
-//   .insertQuery() // 👈 gives an instance of insert query builder.
-//   .table('holidaymaster')
-//   .insert({Name:Name , Description:Description ,OrganizationId:OrganizationId ,
-//           DateFrom: DateFrom,DateTo:DateTo})
-//  return query;
-     
-        // Log the activity
-        //  const zone = getTimeZone(OrganizationId) // You need to implement this function
-        // const currentDateTime = moment(OrganizationId).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss')
-        // DateTime.local().setZone(zone)
-         //const activityDate = DateTime.local().toFormat('yy-MM-dd HH:mm:ss')
-        // const activityBy = 1
-        // const actionPerformed = `<b>${name}</b> holiday has been created by <b>${getEmpName(empid)}</b> from Attendance App`
-        // const appModule = 'Holiday'
-
-           // Log the activity
-    //     const zone = getTimeZone(OrganizationId) // You need to implement this function
-    //     DateTime.local().setZone(zone)
-    //     const activityDate = DateTime.local().toFormat('yy-MM-dd HH:mm:ss')
-    //     const activityBy = 1
-    //     const actionPerformed = `<b>${name}</b> holiday has been created by <b>${getEmpName(empid)}</b> from Attendance App`
-    //     const appModule = 'Holiday'
-    
-    //     const activityHistory = new ActivityHistoryMaster()
-    //     activityHistory.LastModifiedDate = activityDate
-    //     activityHistory.LastModifiedById = empid
-    //     activityHistory.Module = 'Attendance app'
-    //     activityHistory.ActionPerformed = actionPerformed
-    //     activityHistory.OrganizationId = OrganizationId
-    //     activityHistory.ActivityBy = activityBy
-    //     activityHistory.adminid = empid
-    //     activityHistory.AppModule = appModule
-    //     await activityHistory.save()
-    
-    //     result.status = '1' // Holiday added successfully
-    //     return response.json(result)
-    //   }
-    // }
-
-
+  const query =  await Database
+  .insertQuery() // 👈 gives an instance of insert query builder.
+  .table('holidaymaster')
+  .insert({Name:Name , Description:Description ,OrganizationId:OrganizationId ,
+          DateFrom: DateFrom,DateTo:DateTo})
+ return query;
+          
 }
 
 
