@@ -54,5 +54,28 @@ export default class Attendances {
         return response.json(b);
 
     }
+
+    public async getEmployeesList({ request, response }: HttpContextContract) {
+
+        const validateData = await request.validate(AttendanceValidator.EmployeesList)
+        const result:any = await AttendanceService.EmployeesList(validateData)
+        return response.json(result)
+    }
+
+    public async setQrKioskPin({request,response}: HttpContextContract){
+
+        const data:any = await request.validate(AttendanceValidator.QrKioskPin)
+        const result = await AttendanceService.Service_setQrKioskPin(data)
+        return response.json(result)
+        
+    }
+
+    public async getSetKioskPin({ request, response }: HttpContextContract) {
+
+        const data:any = await request.validate(AttendanceValidator.getSetKioskPinV)
+        const result = await AttendanceService.getSetKioskPinService(data)
+        return response.json(result)
+    
+    }
 }
 

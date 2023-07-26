@@ -53,4 +53,25 @@ export default class AttendanceValidator extends BaseValidator {
     }), message: BaseValidator.messages
   }
 
+  static EmployeesList = {schema:schema.create({
+    orgid:schema.number(),
+   // empid:schema.number(),  
+    pagename:schema.string(),
+    currentPage:schema.number(),
+    perPage:schema.number()
+   }),messages:BaseValidator.messages
+  }
+
+  static QrKioskPin = {schema:schema.create({
+    empid:schema.number(),
+    orgid:schema.number(),
+    qRKioskPin:schema.number()
+   }),messages:BaseValidator.messages
+  }
+
+  static getSetKioskPinV = {schema:schema.create({
+    empId:schema.number(),
+    orgId:schema.number(),    
+  }),messages:BaseValidator.messages
+}
 }
