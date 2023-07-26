@@ -69,8 +69,9 @@ public async updatedept({ request, response }: HttpContextContract) {
 
     const b = await AttendanceService.updatedept(a);
 
-   return response.json(b); 
+   return response.json(b);    
 }
+
 
  
 }
