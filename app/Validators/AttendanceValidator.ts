@@ -53,4 +53,41 @@ export default class AttendanceValidator extends BaseValidator {
     }), message: BaseValidator.messages
   }
 
+
+  static AddDesignationschema ={
+
+ schema:schema.create({
+    uid: schema.number(),
+    orgid: schema.number(),
+    name: schema.string(),
+    sts: schema.number(),
+    desc: schema.string(),
+  })
+}
+   static Designationschema ={
+    schema:schema.create({
+      orgid:schema.number.optional(),
+      status:schema.number.optional(),
+      pagename:schema.number.optional(),
+      currentpage:schema.number.optional(),
+      perpage:schema.number.optional()
+
+    })
+   }
+
+
+   static updateDesignationschema={
+    schema:schema.create({
+      uid:schema.number(),
+      design:schema.string(),
+      sts:schema.number(),
+      did:schema.number(),
+      orgid:schema.number()
+      
+    })
+   }
+
+
+
+
 }
