@@ -41,7 +41,36 @@ export default class Attendances {
     const b = await AttendanceService.getmultishift(a);
 
     return response.json(b);
+
+
   }
+
+  public async getdepartment({ request, response }: HttpContextContract) {
+
+    const a = await request.validate(AttendanceValidator.getdepartment);
+
+    const b = await AttendanceService.getdepartment(a);
+
+    return response.json(b);
+}
+
+public async addDept({ request, response }: HttpContextContract) {
+
+    const a = await request.validate(AttendanceValidator.addepartment);
+
+    const b = await AttendanceService.addDept(a);
+
+    return response.json(b);
+}
+
+public async updatedept({ request, response }: HttpContextContract) {
+
+    const a = await request.validate(AttendanceValidator.updatedept);
+
+    const b = await AttendanceService.updatedept(a);
+
+   return response.json(b);
+}
 
  
 }
