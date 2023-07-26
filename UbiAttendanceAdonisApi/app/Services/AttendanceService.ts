@@ -6,8 +6,12 @@ export default class AttendanceService {
   public static async getAttendance(a) {
 
     const res: any[] = [];
+    var startdate = a.startdate.toFormat('yyyy-MM-dd');
+    console.log(startdate);
+    
 
-    var query = Database.from('AttendanceMainMaster as AM')
+
+    var query = Database.from('AttendanceMaster as AM')
       .innerJoin('DepartmentMaster as DM', 'AM.Dept_id', '=', 'DM.Id')
       .innerJoin('DesignationMaster as DSm', 'AM.Desg_id', '=', 'DSm.Id')
       .innerJoin('ShiftMaster as SM', 'AM.ShiftId', '=', 'SM.Id')
@@ -20,7 +24,7 @@ export default class AttendanceService {
         , 'AM.TimeOutConfidence', 'SM.TimeInGrace', 'AM.TimeInGeoFence'
         , 'AM.TimeOutGeoFence', 'AM.FakeTimeOutTimeStatus',
         'AM.FakeTimeInTimeStatus', 'AM.FakeLocationStatusTimeIn', 'AM.FakeLocationStatusTimeOut'
-        , 'AM.timeoutdate', 'AM.EmployeeId', 'AM.TimeInEditStatus', 'AM.TimeOutEditStatus', 'AM.latit_in _&_longi_in as lin', 'AM.latit_out_&_longi_out as lout', 'AM.device', 'AM.SuspiciousTimeInStatus', 'AM.SuspiciousTimeOutStatus', 'AM.SuspiciousDeviceTimeInStatus', 'AM.SuspiciousDeviceTimeOutStatus', 'EM.EmployeeCode', 'EM.FirstName', 'EM.MultipletimeStatus', 'SM.shifttype'
+        , 'AM.timeoutdate', 'AM.EmployeeId', 'AM.TimeInEditStatus', 'AM.TimeOutEditStatus', 'AM.device', 'AM.SuspiciousTimeInStatus', 'AM.SuspiciousTimeOutStatus', 'AM.SuspiciousDeviceTimeInStatus', 'AM.SuspiciousDeviceTimeOutStatus', 'EM.EmployeeCode', 'EM.FirstName', 'EM.MultipletimeStatus', 'SM.shifttype'
         , 'AM.AttendanceStatus', Database.raw(`CASE
                     WHEN (SM.shifttype = 1) THEN SUBTIME(AM.TotalLoggedHours, SM.HoursPerDay)
                     ELSE (
@@ -57,7 +61,7 @@ export default class AttendanceService {
         , 'A.TimeOutConfidence', 'SM.TimeInGrace', 'A.TimeInGeoFence'
         , 'A.TimeOutGeoFence', 'A.FakeTimeOutTimeStatus',
         'A.FakeTimeInTimeStatus', 'A.FakeLocationStatusTimeIn', 'A.FakeLocationStatusTimeOut'
-        , 'A.timeoutdate', 'A.EmployeeId', 'A.TimeInEditStatus', 'A.TimeOutEditStatus', 'A.latit_in as lin', 'A.latit_out as lout', 'A.device', 'A.SuspiciousTimeInStatus', 'A.SuspiciousTimeOutStatus', 'A.SuspiciousDeviceTimeInStatus', 'A.SuspiciousDeviceTimeOutStatus', 'EM.EmployeeCode', 'EM.FirstName', 'EM.MultipletimeStatus', 'SM.shifttype'
+        , 'A.timeoutdate', 'A.EmployeeId', 'A.TimeInEditStatus', 'A.TimeOutEditStatus', 'A.device', 'A.SuspiciousTimeInStatus', 'A.SuspiciousTimeOutStatus', 'A.SuspiciousDeviceTimeInStatus', 'A.SuspiciousDeviceTimeOutStatus', 'EM.EmployeeCode', 'EM.FirstName', 'EM.MultipletimeStatus', 'SM.shifttype'
         , 'A.AttendanceStatus', Database.raw(`CASE
                     WHEN (SM.shifttype = 1) THEN SUBTIME(A.TotalLoggedHours, SM.HoursPerDay)
                     ELSE (
@@ -80,7 +84,7 @@ export default class AttendanceService {
                   SUBSTRING_INDEX(EntryImage,'.com/',-1) as EntryImage,
                   SUBSTRING_INDEX(ExitImage,'.com/',-1) as ExitImage 
                   `))
-
+ 
     if (a.startdate == undefined || a.enddate == undefined) {
       var todaydate = new Date();
       var curdate = moment(todaydate).utcOffset('Asia/Kolkata').format('YYYY-MM-DD');
@@ -113,8 +117,12 @@ export default class AttendanceService {
       query = query.where('EM.FirstName', a.searchvalue);
       query1 = query1.where('EM.FirstName', a.searchvalue);
     }
+    
 
     const queryres = await query.union(query1)
+
+   console.log(queryres.length);
+    
     queryres.forEach(function (row) {
       var data = {};
       data['Id'] = row.Id;
@@ -147,9 +155,9 @@ export default class AttendanceService {
       data['timeoutcity'] = row.timeoutcity;
       data['FakeTimeInTimeStatus'] = row.FakeTimeInTimeStatus;
       data['FakeLocationStatusTimeIn'] = row.FakeLocationStatusTimeIn;
-      data['latit_in _&_longi_in'] = row.lin;
-      data['lout'] = row.lout;
-      data['lin'] = row.lin;
+      //data['latit_in _&_longi_in'] = row.lin;
+      //data['lout'] = row.lout;
+     // data['lin'] = row.lin;
       data['device'] = row.device;
       data['SuspiciousTimeInStatus'] = row.SuspiciousTimeInStatus;
       data['SuspiciousTimeOutStatus'] = row.SuspiciousTimeOutStatus;
@@ -243,14 +251,6 @@ export default class AttendanceService {
     query = await Database.from('ShiftPlanner').where('empid', datas.EmployeeId).andWhere('orgid', datas.OrganizationId);
 
     return query;
-    query.forEach(async (row) => {
-      data['ShiftDate'] = row.ShiftDate;
-      data['shiftid'] = row.shiftid;
-      data['weekoffStatus'] = row.weekoffStatus;
-      data['Id'] = row.Id;
-
-      query1 = await Database.from('ShiftMaster').where('OrganizationId', datas.OrganizationId).andWhere('Id', data['shiftid']);
-    })
 
     // var q =  await GetMultishiftlist.query().from('ShiftPlanner').where('empid',datas.EmployeeId).andWhere('orgid',datas.OrganizationId).select('*');
 
