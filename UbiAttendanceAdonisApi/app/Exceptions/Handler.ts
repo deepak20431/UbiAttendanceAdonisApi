@@ -20,5 +20,6 @@ export default class ExceptionHandler extends HttpExceptionHandler {
      if(error.code == 'E_VALIDATION_FAILURE'){
       return ctx.response.status(200).send(error.messages)
      }
+ 
   }
 }

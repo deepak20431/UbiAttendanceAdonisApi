@@ -267,15 +267,23 @@ export default class AttendanceService {
 
   public static async getdepartment(data) {
 
+    interface department {
+      Id: number,
+      Name: string,
+      OrganizationId: number,
+      archive: number
+    }
+
     const query = await Database.from('DepartmentMaster').select('Id', Database.raw(`if(LENGTH("Name") > 30, concat(SUBSTR("Name", 1, 30), '....'), Name) as Name ,'archive'`)).where('OrganizationId', data.OrganizationId).orderBy('Name');
 
+    
     var res: any[] = [];
 
-    query.forEach((row) => {
-      var data = {};
-      data['Id'] = row.Id;
-      data['Name'] = row.Name;
-      data['archive'] = row.archive;
+    query.forEach((row) => {    
+      const data:department[] = []
+      data.push(row.Id);
+      data.push(row.Name); 
+      data.push(row.archive);
       res.push(data)
     })
     return res;
@@ -303,7 +311,6 @@ export default class AttendanceService {
     });
 
     return query1;
-
 
   }
 
