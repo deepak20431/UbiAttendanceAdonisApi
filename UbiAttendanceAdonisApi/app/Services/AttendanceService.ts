@@ -171,10 +171,12 @@ export default class AttendanceService {
 
     var result: any = {};     //defines an array of object
 
-    const query = await Database.from('UserMaster').select('kioskPin')
+    const query:any = await Database.from('UserMaster').select('kioskPin')
       .where('OrganizationId', '=', data.OrganizationId)
       .andWhere('EmployeeId', '=', data.EmployeeId)
       .andWhere('kioskPin', '=', data.kioskPin);
+
+      console.log(query.toSQL().toNative());
 
     if (query.length > 0) {
       result['response'] = 1;
