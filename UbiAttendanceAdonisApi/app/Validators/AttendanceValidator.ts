@@ -1,7 +1,7 @@
 import { schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseValidator from './BaseValidator'
-
+// import { DateTime } from 'luxon'
 
 export default class AttendanceValidator extends BaseValidator {
   constructor(protected ctx: HttpContextContract) {
@@ -53,4 +53,30 @@ export default class AttendanceValidator extends BaseValidator {
     }), message: BaseValidator.messages
   }
 
+  static getdepartment = {
+    schema: schema.create({
+      OrganizationId: schema.number(),
+    }), message: BaseValidator.messages
+  }
+
+  static addepartment = {
+    schema: schema.create({
+      OrganizationId: schema.number(),
+      Name:schema.string(),
+      CreatedbyId:schema.number.optional(),
+      LastModifiedById:schema.number.optional(),
+      OwnerId:schema.number.optional(),
+      archive:schema.number.optional()
+    }), message: BaseValidator.messages
+  }
+
+  static updatedept = {
+    schema: schema.create({
+      OrganizationId: schema.number(),
+      Id:schema.number(),
+      Name:schema.string(),
+      LastModifiedById:schema.number.optional(),
+      archive:schema.number.optional()
+    }), message: BaseValidator.messages
+  }
 }
