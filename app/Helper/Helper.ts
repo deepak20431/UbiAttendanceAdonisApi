@@ -4,4 +4,8 @@ export default class Helper{
     {
         return a
     }
+    public static async getTimeZone(orgid: any)
+    {
+        return "m";
+    }
 }
