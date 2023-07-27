@@ -1,8 +1,11 @@
 import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import BaseValidator from './BaseValidator'
 
-export default class AttendanceValidator {
-  constructor(protected ctx: HttpContextContract) {}
+export default class AttendanceValidator extends BaseValidator{
+  constructor(protected ctx: HttpContextContract) {
+    super()
+  }
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
