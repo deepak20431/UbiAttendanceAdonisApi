@@ -1,6 +1,7 @@
 import Database from "@ioc:Adonis/Lucid/Database";
+// import moment from "moment";
 
-export default class Designation {
+export default class DesignationService {
   // Insert Designation method
   public static async AddDesignation(a) {
     const currentDate = new Date();
@@ -60,7 +61,8 @@ export default class Designation {
   public static async getDesignation(a) {
     const begin = (a.currentpage - 1) * a.perpage;
 
-    let query: any = Database.query().select(
+    let query: any = Database.from("DesignationMaster")
+      .select(
         "Id",
         "OrganizationId",
         Database.raw(
@@ -70,19 +72,6 @@ export default class Designation {
       )
       .where("OrganizationId", a.orgid)
       .orderBy("Name", "asc");
-
-
-    const query:any = Database.query()
-    .select('Id', 'OrganizationId ', Database.raw(
-      "IF(LENGTH(`Name`)> 30, CONCAT(SUBSTR(`Name`, 1, 30), '...'), `Name`) AS `Name`"
-    ))
-    
-    .limit(9)
-    .where('OrganizationId', a.orgid)
-    .orderBy('Name', 'asc');
-
- 
-return query
 
     if (a.currentpage != 0 && a.pagename == 0) {
       query = query.offset(begin).limit(a.perpage);
@@ -130,7 +119,7 @@ return query
 
 
   
-  // // Update designation Method
+  // Update designation Method
   public static async updateDesignation(c) {
     const result: any[] = [];
     result["status"] = 0;
@@ -145,9 +134,9 @@ return query
     const Result: any = await query;
     const r = Result.length;
     if (r > 0) {
-      result["status"] = -1; 
+      result["status"] = -1;
       return result['status']
-      // if dept already exists
+       // if dept already exists
       return false;
     }
     const queryResult = await Database.from("DesignationMaster")
@@ -167,7 +156,7 @@ return query
     }
 
     var res: any = "";
-    if (name != c.design) {
+    if (name != c.dna) {
       res = 2;
     } else if (name == c.design && c.sts != sts1) {
       res = c.sts;
@@ -192,4 +181,3 @@ return query
     return updateResult;
   }
 }
-
