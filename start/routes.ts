@@ -27,5 +27,6 @@ import  "../app/Routes/DesignationRoute"
 // Route.post('/add','DesigantionsController.AddDesign')
 // Route.put('/update','DesigantionsController.UpdateDesign')
 
-Route.get('/getdepartment','DepartmentsController.getdepartment')
+
 Route.get('/login','loginApiController.checkLogin');
+Route.get('/getdepartment','DepartmentsController.getdepartment').middleware{''}

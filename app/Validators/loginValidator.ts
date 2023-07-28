@@ -8,7 +8,6 @@ export default class loginValidator  extends BaseValidator{
 
   }
 
-    
     static loginV ={
   
    schema:schema.create({

@@ -62,7 +62,7 @@ export default class loginService {
     }
     arr.push(userName1);
     arr.push(password1);
-    return arr;
+    // return arr;
     // const verifymail = await Database.from('OrganizationTemp')
     //   .where('Email', userName1)
     //   .orWhere('PhoneNumber', userName1)
@@ -114,3 +114,5 @@ export default class loginService {
 
   }
 }
+
+
