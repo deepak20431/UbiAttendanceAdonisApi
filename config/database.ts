@@ -19,9 +19,25 @@ const databaseConfig: DatabaseConfig = {
   | file.
   |
   */
-  connection: Env.get('DB_CONNECTION'),
 
-  connections: {
+    connection: 'mysql',
+    connections: {
+      mysql: {
+        client: 'mysql',
+        connection: {
+          host: 'localhost',
+          port: 3306,
+          user: 'root',
+          password: '',
+          database: 'ubitechdb01',
+        },
+        debug: true,
+      },
+    }
+  }
+ // connection: Env.get('DB_CONNECTION'),
+
+  // connections: {
     /*
     |--------------------------------------------------------------------------
     | MySQL config
@@ -33,23 +49,23 @@ const databaseConfig: DatabaseConfig = {
     | npm i mysql2
     |
     */
-    mysql: {
-      client: 'mysql2',
-      connection: {
-        host: Env.get('MYSQL_HOST'),
-        port: Env.get('MYSQL_PORT'),
-        user: Env.get('MYSQL_USER'),
-        password: Env.get('MYSQL_PASSWORD', ''),
-        database: Env.get('MYSQL_DB_NAME'),
-      },
-      migrations: {
-        naturalSort: true,
-      },
-      healthCheck: false,
-      debug: true,
-    },
+//     mysql: {
+//       client: 'mysql2',
+//       connection: {
+//         host: Env.get('MYSQL_HOST'),
+//         port: Env.get('MYSQL_PORT'),
+//         user: Env.get('MYSQL_USER'),
+//         password: Env.get('MYSQL_PASSWORD', ''),
+//         database: Env.get('MYSQL_DB_NAME'),
+//       },
+//       migrations: {
+//         naturalSort: true,
+//       },
+//       healthCheck: false,
+//       debug: true,
+//     },
 
-  }
-}
+//   }
+// }
 
 export default databaseConfig

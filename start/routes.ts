@@ -1,4 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
+const jwt = require('jsonwebtoken')
 //import getAttendances from 'App/Controllers/Http/getAttendances_Controller'
 //import { Group } from '@japa/runner'
 
@@ -47,5 +48,15 @@ Route.get('/holidaysFetch','HolidayMastersController.index')
     )
     return new getAttendances().index(ctx)
   })
+
+  Route.post('/login', 'AuthController.login');
+
+
+  // Route.get('/',async(auth)=>{
+
+  
+
+  // })
+
 
 

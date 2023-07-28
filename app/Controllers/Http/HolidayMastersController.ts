@@ -10,7 +10,7 @@ export default class User1sController {
 
   public async Fetchholidaymaster({request,response}: HttpContextContract){   //HolidayMaster refer to  holidayM_services.ts
     const valid:any = await request.validate(Validator.newPostSchema)
-    valid["Id"]
+    // valid["Id"]
     const result = await ServiceOne.holidaymaster(valid)
     
     return response.json(result)             
