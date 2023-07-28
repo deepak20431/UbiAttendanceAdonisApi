@@ -14,17 +14,11 @@ export default class login {
     const key="abcd";
     const token = Helper.generate(key,{username:result[0],password:result[1]});
     //console.log(token);
-    const result1 = await loginService.storetoken({token:token,id:result[2]});
-    // response.cookie('impkey',token,{
-    //   httpOnly:true
-    // })
+    const result1 = await loginService.storetoken({token:token,id:result[2],Orgid:result[3]});
     const arr :any= {};
     arr['token']=token;
     arr['data']=result;
-    return arr;
-    
-
-    
+    return arr; 
   }
 }
 

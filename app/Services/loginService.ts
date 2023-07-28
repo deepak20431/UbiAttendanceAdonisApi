@@ -1,5 +1,6 @@
 import Database from "@ioc:Adonis/Lucid/Database";
 import Helper from "App/Helper/Helper";
+import { Query } from "mysql2/typings/mysql/lib/protocol/sequences/Query";
 
 export default class loginService {
 
@@ -10,21 +11,26 @@ export default class loginService {
     let password1:string = getData.password.trim();
 
       const query= await Database.query().select('*').from('OrganizationTemp ').where('Email',userName1).andWhere('password',password1);
-
-      
       const arr :any= [];
       arr.push(query[0].Name);
       arr.push(query[0].Email);
       arr.push(query[0].Id);
+      arr.push(10);
       //console.log(arr);
       return arr;
 
   }
   public static async storetoken(arr :any= {}){
-    //console.log(arr);
-    //return false;
-    const query=  await Database.query().from('OrganizationTemp').update('token',arr.token).where('id', arr.id);
-      console.log(query);
+    const query1 =  await Database.query().select('*').from('Emp_key_Storage').where('EmployeeId', arr.id).andWhere('OrganizationId',arr.Orgid);
+      if(query1.length > 0){
+        const query=  await Database.query().from('Emp_key_Storage').update('token',arr.token).where('EmployeeId', arr.id).andWhere('OrganizationId',arr.Orgid);
+        return query;
+      }else{
+         const query=  await Database.table('Emp_key_Storage').insert({EmployeeId:arr.id,OrganizationId:arr.Orgid,Token:arr.token}).returning('id');
+         return query;
+      }
+
+   
   }
   
 

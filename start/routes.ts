@@ -19,7 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import "../app/Routes/DepartmentRoute"
+//import "../app/Routes/DepartmentRoute"
 import  "../app/Routes/DesignationRoute"
 
 
@@ -27,5 +27,5 @@ import  "../app/Routes/DesignationRoute"
 // Route.post('/add','DesigantionsController.AddDesign')
 // Route.put('/update','DesigantionsController.UpdateDesign')
 
-
-Route.get('/login','loginApiController.checkLogin')
+Route.get('/getdepartment','DepartmentsController.getdepartment')
+Route.get('/login','loginApiController.checkLogin');
