@@ -23,9 +23,9 @@ import "../app/Routes/DepartmentRoute"
 import  "../app/Routes/DesignationRoute"
 
 
-Route.get('/fetch','DesigantionsController.retreiveDesign')
-Route.post('/add','DesigantionsController.AddDesign')
-Route.put('/update','DesigantionsController.UpdateDesign')
+// Route.get('/fetch','DesigantionsController.retreiveDesign')
+// Route.post('/add','DesigantionsController.AddDesign')
+// Route.put('/update','DesigantionsController.UpdateDesign')
 
 
 Route.get('/login','loginApiController.checkLogin')

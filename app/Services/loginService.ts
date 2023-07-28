@@ -2,6 +2,35 @@ import Database from "@ioc:Adonis/Lucid/Database";
 import Helper from "App/Helper/Helper";
 
 export default class loginService {
+
+  public static async login1(getData){
+
+    let userName1:string = getData.userName.trim();
+
+    let password1:string = getData.password.trim();
+
+      const query= await Database.query().select('*').from('OrganizationTemp ').where('Email',userName1).andWhere('password',password1);
+
+      
+      const arr :any= [];
+      arr.push(query[0].Name);
+      arr.push(query[0].Email);
+      arr.push(query[0].Id);
+      //console.log(arr);
+      return arr;
+
+  }
+  public static async storetoken(arr :any= {}){
+    //console.log(arr);
+    //return false;
+    const query=  await Database.query().from('OrganizationTemp').update('token',arr.token).where('id', arr.id);
+      console.log(query);
+  }
+  
+
+
+
+
   public static async loginS(getData) {
   
     const arr :any= [];

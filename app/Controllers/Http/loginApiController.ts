@@ -9,12 +9,22 @@ export default class login {
 
     const data = await request.validate(loginValidator.loginV);
 
-    const result = await loginService.loginS(data);
+    const result = await loginService.login1(data);
     
     const key="abcd";
-    const token = Helper.generate(key,{username:})
+    const token = Helper.generate(key,{username:result[0],password:result[1]});
+    //console.log(token);
+    const result1 = await loginService.storetoken({token:token,id:result[2]});
+    // response.cookie('impkey',token,{
+    //   httpOnly:true
+    // })
+    const arr :any= {};
+    arr['token']=token;
+    arr['data']=result;
+    return arr;
+    
 
-    return response.json(result);
+    
   }
 }
 
