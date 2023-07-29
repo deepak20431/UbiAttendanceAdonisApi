@@ -25,4 +25,6 @@ Route.post('/add','DesigantionsController.AddDesign')
 Route.put('/update','DesigantionsController.UpdateDesign')
 
 
-Route.get('/login','loginApiController.checkLogin')
+// Route.post('/login1','AuthController.login');
+Route.post('/login','loginApiController.checkLogin')
+Route.post('/getdepartment','DepartmentsController.getdepartment').middleware('auth')

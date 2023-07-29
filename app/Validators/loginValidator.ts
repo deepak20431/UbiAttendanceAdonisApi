@@ -8,14 +8,12 @@ export default class loginValidator  extends BaseValidator{
 
   }
 
-    
     static loginV ={
-  
-   schema:schema.create({
+    schema:schema.create({
     userName: schema.string.optional(),
     password: schema.string.optional(),
-    loginMethod:schema.string.optional(),
-    OrgId:schema.number.optional()
+    // loginMethod:schema.string.optional(),
+    token:schema.string.optional()
     
     })
   }

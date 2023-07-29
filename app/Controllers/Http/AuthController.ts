@@ -8,7 +8,7 @@ export default class AuthController {
   public async login({ request, response }: HttpContextContract) {
     const { email, password } = request.all();
     const user1 = "2"; //const user: User = await auth.user('api').attempt(email, password);
-      const token=Helper.generate(user1,{usesr:email,pass:password})
+      const token=Helper.generate(user1,{user:email,pass:password})
       console.log(token)
       return response.json(token)
     // const token = await auth.user('api').generate(user);
