@@ -9,9 +9,13 @@ export default class DepartmentsController {
         const a = await request.validate(DepartmentValidator.getdepartment);
 
         const b = await DepartmentService.getdepartment(a);
-        console.log(b);
-
-        return response.json(b);
+        //console.log(b);
+        if(b.length > 0){ 
+               // console.log({message:"success",data:b});
+                response.status(200).send({message:"success",data:{b}});
+        }else{
+                response.status(400).send({message:"Unsuccess",data:b}) ;    
+        }
     }
 
     public async addDept({ request, response }: HttpContextContract) {

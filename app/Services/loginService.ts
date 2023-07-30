@@ -1,7 +1,9 @@
+
 import Database from "@ioc:Adonis/Lucid/Database";
 import Helper from "App/Helper/Helper";
 
 export default class loginService {
+
   public static async login1(getData) {
     let userName1: string = getData.userName;
     let password1: string = getData.password;
@@ -47,6 +49,25 @@ export default class loginService {
         
       return arr.id;// last inserted Id;
     }
+  }
+  public static async logout(getData) {
+    try{
+      let empid=getData.empid
+      let orgid=getData.orgid
+      let token= "";
+    const query = await Database.query()
+                  .from("Emp_key_Storage")
+                    .where("EmployeeId",empid)
+                    .andWhere("OrganizationId",orgid)
+                    .update("token",token)
+      if(query > 0 ){
+        return 1;
+      }
+    }catch(err){
+      console.log(err)
+      return 0;
+    }
+
   }
   public static async loginS(getData) {
     const arr: any = [];

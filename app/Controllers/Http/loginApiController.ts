@@ -12,7 +12,9 @@ export default class login {
         return response.status(400).send({Message:"User is Not found"});
       }else{
         let key:any = process.env.secretKey;
-        let token:any = Helper.generate(key,{username:result[0],password:result[1],empid:result[3]})
+        let username1=Helper.encode5t(result[0]);
+        let empid=Helper.encode5t(result[3].toString());
+        let token:any = Helper.generate(key,{username:username1,empid:empid})
         if(token == 0)
         { 
           return response.status(400).send({Message:"Key is not Generated",Key:token});
@@ -24,8 +26,7 @@ export default class login {
             return response.status(400).send({Message:"Key Not stored",Key:"000000"});
           } 
         }
-      }
-    
+      } 
   }
 }
 
