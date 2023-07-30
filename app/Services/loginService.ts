@@ -5,37 +5,36 @@ export default class loginService {
   public static async login1(getData) {
     let userName1: string = getData.userName;
     let password1: string = getData.password;
-
     const query = await Database
      .from("OrganizationTemp")
-     .where("Email", userName1)
-     // .orWhere('PhoneNumber', userName1)
-     .andWhere("password", password1)
+     .where("Email", userName1).andWhere("password", password1)
      .select("*")
-     // return query
-    const arr: any = [];
+
+     if(query.length>0){
+      const arr: any = [];
     arr.push(query[0].Name);
     arr.push(query[0].Email);
     arr.push(query[0].password);
     arr.push(query[0].Id);
     arr.push(10); 
     return arr;
+     }else{
+      return 0;
+     }
   }
   public static async storetoken(arr:any={}) {
-
-    const query1 = await Database
-      .from("Emp_key_Storage")
-      .where("EmployeeId",arr.id)
-      .andWhere("OrganizationId",arr.orgid)
-      .select("*")
+    
+    const query1 = await Database.query()
+                  .select("*").from("Emp_key_Storage").where("EmployeeId",arr.id)
+                  .andWhere("OrganizationId",arr.orgid)
     if (query1.length > 0) {
-      // console.log("true")
-      const query = await Database
-        .from("Emp_key_Storage")
-        .where("EmployeeId",arr.id)
-        .andWhere("OrganizationId",arr.orgid)
-        .update("token",arr.token)
-       return query;
+      let query2 = await Database.query()
+                    .from("Emp_key_Storage")
+                    .where("EmployeeId",arr.id)
+                    .andWhere("OrganizationId",arr.orgid)
+                    .update("token",arr.token)
+                    return arr.id  ; //id where is updation perform
+
     } else {
       // console.log("else")
       const query = await Database.table("Emp_key_Storage")
@@ -45,10 +44,10 @@ export default class loginService {
           Token: arr.token,
         })
         .returning("id");
-      return query;
+        
+      return arr.id;// last inserted Id;
     }
   }
-
   public static async loginS(getData) {
     const arr: any = [];
 
