@@ -23,3 +23,11 @@ import "../app/Routes/DepartmentRoute"
 import  "../app/Routes/DesignationRoute"
 
 
+Route.get('/fetch','DesigantionsController.retreiveDesign')
+Route.post('/add','DesigantionsController.AddDesign')
+Route.put('/update','DesigantionsController.UpdateDesign')
+
+
+// Route.post('/login1','AuthController.login');
+Route.post('/login','loginApiController.checkLogin')
+Route.post('/getdepartment','DepartmentsController.getdepartment').middleware('auth')
