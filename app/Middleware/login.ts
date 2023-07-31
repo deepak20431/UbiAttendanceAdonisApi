@@ -10,7 +10,6 @@ export default class Middleware1 {
   var arr =request.headers().authorization;
   var token=arr?.split('@@')[1];
   var key=process.env.secretKey
-
   jwt.verify(token,key,async function(err,decoded){
     if(err){
         if(err.name == 'TokenExpiredError'){
@@ -24,11 +23,12 @@ export default class Middleware1 {
             response.status(402).send({Message:err.message,name:err.name});
         }
     }else{
-      //console.log(decoded);
+      console.log(decoded);
       let empid= Helper.decode5t(decoded.Id);
        const query = await Database.query().select("*").from("Emp_key_Storage")
        .where("EmployeeId",empid).andWhere('Token','LIKE',"%"+token+"%");
         if(query.length>0){
+          console.log("success;")
           next()
         }else{
           response.status(400).send({Message:"Invalid Access"}); 

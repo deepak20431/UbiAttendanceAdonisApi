@@ -1,4 +1,4 @@
- import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Helper from 'App/Helper/Helper';
 import loginService from 'App/Services/loginService';
 import TokenValidator from 'App/Validators/TokenValidator';
@@ -7,7 +7,11 @@ export default class GetTokensController {
     public async getToken({ request, response }: HttpContextContract) {
         const data = await request.validate(TokenValidator.token);
         let key:any = process.env.secretKey;
-        let token:any = Helper.generate(key,{username:data.userName,empid:data.empid})
+        let username=Helper.encode5t(data.userName);
+        let empid=Helper.encode5t(data.empid.toString());
+        let token:any = Helper.generate(key,{username:username,empid:empid})
+        // console.log(token);
+        // return false;
         if(token == 0)
         { 
           return response.status(400).send({Message:"Key is not Generated",Key:token});
