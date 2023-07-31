@@ -1,4 +1,3 @@
-
 import Database from "@ioc:Adonis/Lucid/Database";
 import Helper from "App/Helper/Helper";
 
@@ -50,6 +49,7 @@ export default class loginService {
       return arr.id;// last inserted Id;
     }
   }
+  
   public static async logout(getData) {
     try{
       let empid=getData.empid
@@ -60,7 +60,7 @@ export default class loginService {
                     .where("EmployeeId",empid)
                     .andWhere("OrganizationId",orgid)
                     .update("token",token)
-      if(query > 0 ){
+      if(query.length > 0 ){
         return 1;
       }
     }catch(err){
