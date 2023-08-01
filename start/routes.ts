@@ -19,8 +19,12 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+
 import  '../app/Routes/ShiftRoute'
 
-Route.get('/fetch','DesigantionsController.retreiveDesign')
-Route.post('/add','DesigantionsController.AddDesign')
-Route.put('/update','DesigantionsController.UpdateDesign')
+import "../app/Routes/DepartmentRoute"
+import  "../app/Routes/DesignationRoute"
+import "../app/Routes/UsersettingRoutes"
+
+
+
