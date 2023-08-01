@@ -1,37 +1,33 @@
 import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class DepartmentService {
-  public static async getdepartment(data) {
-    interface department {
-      Id: number;
-      Name: string;
-      OrganizationId: number;
-      archive: number;
+
+    public static async getdepartment(data) {
+
+        interface department {
+            Id: number,
+            Name: string,
+            OrganizationId: number,
+            archive: number
+        }
+
+        const query = await Database.from('DepartmentMaster').select('Id', Database.raw(`if(LENGTH("Name") > 30, concat(SUBSTR("Name", 1, 30), '....'), Name) as Name ,'archive'`)).where('OrganizationId', data.OrganizationId).orderBy('Name');
+
+
+        var res: any[] = [];
+
+        query.forEach((row) => {
+            const data: department = {
+               Id:row.Id,
+               Name:row.Name,
+               OrganizationId:row.OrganizationId,
+               archive:row.archive
+            }
+           res.push(data)
+        });
+        return res;
+
     }
-
-    const query = await Database.from("DepartmentMaster")
-      .select(
-        "Id",
-        Database.raw(
-          `if(LENGTH("Name") > 30, concat(SUBSTR("Name", 1, 30), '....'), Name) as Name ,'archive'`
-        )
-      )
-      .where("OrganizationId", data.OrganizationId)
-      .orderBy("Name");
-
-    var res: any[] = [];
-
-    query.forEach((row) => {
-      const data: department = {
-        Id: row.id,
-        Name: row.Name,
-        archive: row.archive,
-        OrganizationId: 10,
-      };
-      res.push(data);
-    });
-    return res;
-  }
 
   public static async addDept(data) {
     var currentdate = new Date();
