@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseValidator from './BaseValidator'
 
@@ -7,7 +7,6 @@ export default class loginValidator  extends BaseValidator{
     super()
 
   }
-
     static loginV ={
     schema:schema.create({
     userName: schema.string(),
@@ -16,7 +15,6 @@ export default class loginValidator  extends BaseValidator{
   }
   static logout ={
       schema:schema.create({
-      // userName: schema.string(),
       empid: schema.number(),
       orgid: schema.number(),
     }), message: BaseValidator.messages

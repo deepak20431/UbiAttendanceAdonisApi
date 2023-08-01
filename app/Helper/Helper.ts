@@ -1,5 +1,3 @@
-//import { Response } from "@adonisjs/core/build/standalone";
-
 const jwt = require("jsonwebtoken");
 
 export default class Helper {
@@ -9,7 +7,6 @@ export default class Helper {
       str = Buffer.from(str).toString("base64");
       str = str.split("").reverse().join("");
     }
-    //console.log(str+ "  **encode string");
     return str;
   }
 
@@ -18,14 +15,11 @@ export default class Helper {
       str = str.split("").reverse().join("");
       str = Buffer.from(str, 'base64').toString('utf-8');
     }
-    //console.log(str+"  **decode string");
     return str;
   }
 
-
-  public static generate(secretKey:string, data: {}) {
+  public static generateToken(secretKey:string, data:any={}) {
       try{
-        
         const payload={
           audience:data.username,
           Id:data.empid,

@@ -9,7 +9,7 @@ export default class GetTokensController {
         let key:any = process.env.secretKey;
         let username=Helper.encode5t(data.userName);
         let empid=Helper.encode5t(data.empid.toString());
-        let token:any = Helper.generate(key,{username:username,empid:empid})
+        let token:any = Helper.generateToken(key,{username:username,empid:empid})
         // console.log(token);
         // return false;
         if(token == 0)
