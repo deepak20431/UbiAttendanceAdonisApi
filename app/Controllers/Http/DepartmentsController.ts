@@ -5,9 +5,6 @@ import DepartmentService from "App/Services/DepartmentService";
 
 export default class DepartmentsController {
   public async getdepartment({request,response}: HttpContextContract) {
-    // console.log({ message: 'Authorization successful' })
-        // return response.json({ message: 'Authorization successful' });
-
 
     const a = await request.validate(DepartmentValidator.getdepartment);
     const b:any = await DepartmentService.getdepartment(a);
