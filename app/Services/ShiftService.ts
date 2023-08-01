@@ -4,6 +4,7 @@ import helper from "../Helper/Helper"
 import * as moment from 'moment-timezone';
 export default class ShiftsService {
   constructor() { }
+  
   static async getShiftData(a) {
     //  const currentpage:number = a.currentpage;
     // const perpage:number = a.perpage;
@@ -112,6 +113,7 @@ export default class ShiftsService {
     let HoursPerDay1 = '00:00:00';
 
     const empid = data.empid;
+    const empname  =  await helper.getempnameById(empid);
     const shiftcalendardata = data.shiftcalendardata;
     // Replace single quotes with double quotes in the JSON string
     const string = shiftcalendardata.replace(/'/g, '"');
@@ -119,14 +121,13 @@ export default class ShiftsService {
     // Parse the JSON string into an object
     const result1 = JSON.parse(string);
     console.log(result1);
-    // const result :{ [key:string]: any }[] =[];
     if (shifttype1 != '3') {
       ti = ti == '00:00:00' ? '00:01:00' : ti;
       to = to == '00:00:00' ? '23:59:00' : to;
     }
  
     if (shifttype1 == '2') {
-
+      
     } else {
       console.log(to);
       console.log(ti);
@@ -158,13 +159,10 @@ export default class ShiftsService {
       const day: number = currentDate.getDate();
 
       const date: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const res: number = 0;
-
       const result: any[] = [];
       const query = await Database.query().from('ShiftMaster').select('*').where('Name', name).andWhere('OrganizationId', orgid);
       const numberOfRows = query.length;
-      //console.log(numberOfRows)
-      //console.log('numberOfRows')
+      result['status'] = 0;
       if (numberOfRows > 0) {
         result['status'] = -1;
       } else {
@@ -189,15 +187,17 @@ export default class ShiftsService {
           HoursPerDay: HoursPerDay1,
           MultipletimeStatus: multiplepunches
         });
-        const Id = row[0].id;
+         var Id :any = row;
+        console.log(row);
+        console.log('A');
         if (Id > 0) {
-          
           let i = 0;
           let j = 0;
-          result1.forEach(element => {
+          // var row1: any;
+          result1.forEach(async element => {
         
             let day = i++;
-            const row = Database.table('ShiftMasterChild').returning('id').insert({
+           let row1 = await Database.table('ShiftMasterChild').returning('id').insert({
               ShiftId: Id,
               Day: day,
               WeekOff: element[j],
@@ -207,22 +207,32 @@ export default class ShiftsService {
             });
             j++;
           });
-          const ids = row[0].id;
-          if (ids > 0) {
-            const zone :string = await helper.getTimeZone(orgid);
-            moment.tz.setDefault(zone);
+          if (i == 7) {
+            console.log('item');
+            const zone: any = await helper.getTimeZone(orgid);
+            const Zonename = zone[0].name;
+            moment.tz.setDefault(Zonename);
+            const module :string = "Attendance app";
+            const appModule : string = "Shift";
+            const actionperformed : string = "<b>"+name+"</b> Shift has been added by <b>"+empname+"</b> from <b> Attendance App </b>";
+            const activityby = 1;
+            const query = await Database.table('ActivityHistoryMaster').returning('id').insert({
+              LastModifiedDate: date,
+              LastModifiedById: empid,
+              Module: module,
+              ActionPerformed: actionperformed,
+              OrganizationId: orgid,
+              ActivityBy: activityby,
+              adminid: empid,
+              AppModule: appModule
+            });
             result['status'] = 1;
-          }
-          console.log(i);
-          console.log('i');
-  
+          } 
         }
-        // console.log(result);
-     
-        return result;
-      
       }
+         console.log(result);   
     }
+      
 
   }
 }
