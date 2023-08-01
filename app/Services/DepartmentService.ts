@@ -16,12 +16,14 @@ export default class DepartmentService {
         var res: any[] = [];
 
         query.forEach((row) => {
-            const data: department[] = []
-            data.push(row.Id);
-            data.push(row.Name);
-            data.push(row.archive);
-            res.push(data)
-        })
+            const data: department = {
+               Id:row.Id,
+               Name:row.Name,
+               OrganizationId:row.OrganizationId,
+               archive:row.archive
+            }
+           res.push(data)
+        });
         return res;
 
     }
