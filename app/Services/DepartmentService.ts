@@ -1,6 +1,7 @@
 import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class DepartmentService {
+
     public static async getdepartment(data) {
 
         interface department {
@@ -28,48 +29,54 @@ export default class DepartmentService {
 
     }
 
-    public static async addDept(data) {
+  public static async addDept(data) {
+    var currentdate = new Date();
 
-        var currentdate = new Date();
+    const query = await Database.from("DepartmentMaster")
+      .where("Name", data.Name)
+      .andWhere("OrganizationId", data.OrganizationId);
 
-        const query = await Database.from('DepartmentMaster').where('Name', data.Name).andWhere('OrganizationId', data.OrganizationId);
+    if (query.length > 0) {
+      return false;
+    }
+    const query1 = await Database.insertQuery()
+      .table("DepartmentMaster")
+      .insert({
+        Name: data.Name,
+        OrganizationId: data.OrganizationId,
+        CreatedDate: currentdate,
+        CreatedById: data.CreatedById,
+        LastModifiedDate: currentdate,
+        LastModifiedById: data.LastModifiedById,
+        OwnerId: data.OwnerId,
+        archive: data.archive,
+      });
+// console.log(query1)
+    return query1;
+  }
 
-        if (query.length > 0) {
-            return false;
-        }
-        const query1 = await Database.insertQuery().table('DepartmentMaster').insert({
-            Name: data.Name,
-            OrganizationId: data.OrganizationId,
-            CreatedDate: currentdate,
-            CreatedById: data.CreatedById,
-            LastModifiedDate: currentdate,
-            LastModifiedById: data.LastModifiedById,
-            OwnerId: data.OwnerId,
-            archive: data.archive
-        });
+  public static async updatedept(data) {
+    var currentdate = new Date();
 
-        return query1;
-
+    const query = await Database.from("DepartmentMaster")
+      .select("Id", "OrganizationId", "Name")
+      .where("Id", data.Id)
+      .andWhere("OrganizationId", data.OrganizationId)
+      .andWhere("Name", data.Name);
+    if (query.length > 0) {
+      return false;
     }
 
-    public static async updatedept(data) {
+    const query2 = await Database.query()
+      .from("DepartmentMaster")
+      .where("Id", data.Id)
+      .update({
+        Name: data.Name,
+        LastModifiedDate: currentdate,
+        LastModifiedById: data.LastModifiedById,
+        archive: data.archive,
+      });
 
-        var currentdate = new Date();
-
-        const query = await Database.from('DepartmentMaster').select('Id', 'OrganizationId', 'Name').where('Id', data.Id).andWhere('OrganizationId', data.OrganizationId).andWhere('Name', data.Name);
-        if (query.length > 0) {
-            return false;
-        }
-
-
-        const query2 = await Database.query().from('DepartmentMaster').where('Id', data.Id)
-            .update({
-                Name: data.Name,
-                LastModifiedDate: currentdate,
-                LastModifiedById: data.LastModifiedById,
-                archive: data.archive
-            });
-
-        return query2;
-    }
+    return query2;
+  }
 }

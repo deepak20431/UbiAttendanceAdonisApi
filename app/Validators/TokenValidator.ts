@@ -2,7 +2,7 @@ import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import BaseValidator from './BaseValidator'
 
-export default class EmployeeValidator extends BaseValidator {
+export default class TokenValidator extends BaseValidator  {
   constructor(protected ctx: HttpContextContract) {
     super()
   }
@@ -26,26 +26,14 @@ export default class EmployeeValidator extends BaseValidator {
    *     ])
    *    ```
    */
-  public static empvalid = {schema:schema.create({
-        refno:schema.number(),
-        empid:schema.number(),
-        status:schema.number.optional(),
-        currentPage:schema.number.optional(),
-        perpage:schema.number.optional(),
-        searchval:schema.string.optional()
-        })
-         ,message:BaseValidator.messages
-       }
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public schema = schema.create({})
+  static token ={
+    schema:schema.create({
+    userName: schema.string(),
+    empid: schema.number(),
+    orgid: schema.number(),
+    }), message: BaseValidator.messages
+  }
+
+ 
 }

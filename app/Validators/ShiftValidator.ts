@@ -1,9 +1,36 @@
 import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import BaseValidator from './BaseValidator'
 export default class ShiftValidator {
-  constructor(protected ctx: HttpContextContract) {}
-
+   constructor(protected ctx: HttpContextContract) {
+   // super()
+  }
+  static shifts = {
+    schema: schema.create({
+      OrganizationId: schema.number(),
+      archive: schema.number.optional(),
+      shifttype: schema.number.optional(),
+      currentpage: schema.number(),
+      perpage: schema.number(),
+    }), message: BaseValidator.messages
+  }
+  static addshift = {
+    schema: schema.create({
+      name :schema.string(),
+      org_id: schema.number(),
+      ti: schema.string(),
+       to: schema.string(),
+       tib: schema.string.optional(),
+       tob: schema.string.optional(),
+       sts: schema.number(),
+       shifttype: schema.number(),
+       minimumworkinghours: schema.number.optional(),
+       multiplepunches: schema.number(),
+       empid: schema.number(),
+       shiftcalendardata: schema.string(),
+      
+    })
+  }
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
