@@ -8,4 +8,12 @@ export default class Helper{
           }
           return str;
     }
+
+    public static decode5t(str: string) {
+        for (let i = 0; i < 5; i++) {
+             str = str.split("").reverse().join("");
+              str = Buffer.from(str, 'base64').toString('utf-8');
+           }
+            return str;
+         }
 }

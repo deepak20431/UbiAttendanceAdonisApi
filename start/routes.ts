@@ -21,6 +21,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 import "../app/Routes/DepartmentRoute"
 import  "../app/Routes/DesignationRoute"
-import "../app/Routes/UsersettingRoutes"
+import "../app/Routes/UserSettingRoute"
 
 
