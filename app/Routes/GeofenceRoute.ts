@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
-import GeofencesController from 'App/Controllers/Http/GeofencesController'
 
-Route.get('getgeofence','GeofencesController.getgeofence')
-Route.post('addgeofence','GeofencesController.addgeofence')
+Route.get('getgeofence','GeofencesController.getgeofence').middleware('throttle:global').middleware('auth')
+
+Route.post('addgeofence','GeofencesController.addgeofence').middleware('throttle:global').middleware('auth')
