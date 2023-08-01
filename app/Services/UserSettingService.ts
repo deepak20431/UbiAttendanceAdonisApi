@@ -31,7 +31,7 @@ export default class Usersettingservice{
            res1['status'] = 3;
          }
        }
-      if (res1['status'] != 3)
+      if (query.length == 1)
       {
        
           if(npass == rptpass)

@@ -24,7 +24,7 @@ import  '../app/Routes/ShiftRoute'
 
 import "../app/Routes/DepartmentRoute"
 import  "../app/Routes/DesignationRoute"
-import "../app/Routes/UsersettingRoutes"
+import "../app/Routes/UserSettingRoute"
 
 
 
