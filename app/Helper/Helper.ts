@@ -1,3 +1,5 @@
+import Database from "@ioc:Adonis/Lucid/Database";
+
 export default class Helper{
 
     public static async encode5t(str:any)
