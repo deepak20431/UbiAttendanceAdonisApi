@@ -8,6 +8,7 @@ export default class login {
     
     const data = await request.validate(loginValidator.loginV);
     const result = await loginService.login1(data)
+
       if(result == 0){
         return response.status(400).send({Message:"User is Not found"});
       }else{
@@ -15,6 +16,7 @@ export default class login {
         let username1=Helper.encode5t(result[0]);
         let empid=Helper.encode5t(result[3].toString());
         let token:any = Helper.generate(key,{username:username1,empid:empid})
+        
         if(token == 0)
         { 
           return response.status(400).send({Message:"Key is not Generated",Key:token});

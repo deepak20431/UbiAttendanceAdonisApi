@@ -4,8 +4,7 @@ import loginValidator from 'App/Validators/loginValidator';
 
 export default class LogoutsController {
     public async logout({ request, response }: HttpContextContract) {
-             //console.log(request.body);
-            // return false;
+
         const data = await request.validate(loginValidator.logout);
         const result = await loginService.logout(data)
         if(result != 0){
@@ -14,5 +13,4 @@ export default class LogoutsController {
             response.status(402).send({Message:"some error Ouccured",value:false})
         }
     }
-
 }

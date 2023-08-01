@@ -23,9 +23,8 @@ export default class Helper {
   }
 
 
-  public static generate(secretKey:string, data: {}) {
+  public static generate(secretKey:string, data:any= {}) {
       try{
-        
         const payload={
           audience:data.username,
           Id:data.empid,

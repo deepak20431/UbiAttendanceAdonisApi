@@ -10,8 +10,7 @@ export default class GetTokensController {
         let username=Helper.encode5t(data.userName);
         let empid=Helper.encode5t(data.empid.toString());
         let token:any = Helper.generate(key,{username:username,empid:empid})
-        // console.log(token);
-        // return false;
+
         if(token == 0)
         { 
           return response.status(400).send({Message:"Key is not Generated",Key:token});
@@ -23,7 +22,5 @@ export default class GetTokensController {
             return response.status(400).send({Message:"Key Not stored",Key:"000000"});
           } 
         }
-
     }
-
 }
