@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/','ShiftsController.index')
-Route.get('/show','ShiftsController.show')
-Route.get('/create','ShiftsController.create')
+Route.get('/','ShiftsController.index').middleware('throttle:global')
+Route.get('/show','ShiftsController.show').middleware('throttle:global')
+Route.get('/create','ShiftsController.create').middleware('throttle:global')
