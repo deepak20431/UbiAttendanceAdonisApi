@@ -24,6 +24,15 @@ export default class UserSettingValidator {
    *    ```
    */
   public schema = schema.create({})
+  static usersetting = {
+    schema:schema.create({
+       empid : schema.number(),
+       uid:schema.number(),
+       cpassword:schema.string(),
+       npassword:schema.string(),
+       rtpassword:schema.string()
+    })
+  }
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
