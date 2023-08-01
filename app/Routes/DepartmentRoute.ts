@@ -1,5 +1,5 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/getdepartment','DepartmentsController.getdepartment')
+Route.get('/getdepartment','DepartmentsController.getdepartment').middleware('auth')
 Route.post('/addDept','DepartmentsController.addDept')
 Route.post('/updatedept','DepartmentsController.updatedept')
