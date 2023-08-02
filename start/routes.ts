@@ -19,10 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/data','UsersController.getSelectedEmployeeShift')
-
-
-    
-
-
+import "../app/Routes/DepartmentRoute"
+import  "../app/Routes/DesignationRoute"
+import "../app/Routes/UserSettingRoute"
+import "../app/Routes/Report/GetplannerRoute"
