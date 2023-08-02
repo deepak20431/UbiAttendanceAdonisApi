@@ -18,7 +18,7 @@ export default class DesignationService {
 
     if (r > 0) {
       result["status"] = -1;
-      return false;
+      return 'user already exist';
     }
 
     var query2: any = await Database.insertQuery()
@@ -41,7 +41,7 @@ export default class DesignationService {
         add_sts: "YourAddStsValue",
       });
 
-    return query2;
+    return 'User inserted';
   }
 
 
@@ -121,18 +121,21 @@ export default class DesignationService {
   
   // Update designation Method
   public static async updateDesignation(c) {
+    
     const result: any[] = [];
     result["status"] = 0;
+  
     let curdate = new Date();
 
     const query = await Database.from("DesignationMaster")
       .select("Id")
-      .where("Name", c.design)
-      .andWhere("OrganizationId", c.orgid)
-      .andWhere("Id", c.uid);
+      .where("Name", c.UpdateName)
+      .andWhere("OrganizationId", c.Updateorgid)
+      .andWhere("Id", c.Updateid);
 
     const Result: any = await query;
     const r = Result.length;
+
     if (r > 0) {
       result["status"] = -1;
       return result['status']
@@ -141,8 +144,8 @@ export default class DesignationService {
     }
     const queryResult = await Database.from("DesignationMaster")
       .select("Name", "archive")
-      .where("OrganizationId", c.orgid)
-      .where("Id", c.uid);
+      .where("OrganizationId", c.Updateorgid)
+      .where("Id", c.Updateid);
 
     let name = "";
     let sts1 = "";
@@ -156,28 +159,27 @@ export default class DesignationService {
     }
 
     var res: any = "";
-    if (name != c.dna) {
+    if (name != c.UpdateName) {
       res = 2;
-    } else if (name == c.design && c.sts != sts1) {
+    } else if (name == c.UpdateName && c.sts != sts1) {
       res = c.sts;
     }
 
     var updateResult: any = await Database.query()
       .from("DesignationMaster")
-      .where("id", c.uid)
+      .where("id", c.Updateid)
       .update({
-        Name: c.design,
+        Name:c.UpdateName,
         LastModifiedDate: curdate,
         LastModifiedById: c.uid,
         archive: c.sts,
-        OrganizationId: c.orgid,
+        OrganizationId: c.UpdateName,
       });
 
     const updateResponse = await updateResult;
-    if (updateResponse > 0) {
-      c.id = c.uid;
-      // const date = moment().format("YY-MM-DD HH:mm:ss");
-    }
-    return updateResult;
+
+    
+    
+    return updateResponse;
   }
 }

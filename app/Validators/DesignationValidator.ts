@@ -39,10 +39,10 @@ export default class DesignationValidator  extends BaseValidator{
     //  Update designation schema
      static updateDesignationschema={
       schema:schema.create({
-        uid:schema.number(),
-        design:schema.string(),
+        Updateid:schema.number(),
+        UpdateName:schema.string(),
         sts:schema.number.optional(),
-        orgid:schema.number()
+        Updateorgid:schema.number()
         
       })
      }
