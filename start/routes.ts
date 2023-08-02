@@ -26,7 +26,7 @@ import  "../app/Routes/DesignationRoute"
 import  "../app/Routes/DepartmentRoute"
 import  "../app/Routes/GetTokenRoute"
 import  '../app/Routes/ShiftRoute'
-import "../app/Routes/UsersettingRoutes"
+import "../app/Routes/UserSettingRoute"
 
 
 
