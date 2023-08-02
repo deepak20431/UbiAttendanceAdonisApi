@@ -7,7 +7,8 @@ export default class BaseValidator {
        },
        
          required:`{{field}} is required`,
-         maxLength:'length is too big'
+         maxLength:'length is too big',
+         
       }
 
     }

@@ -42,5 +42,13 @@ Server.middleware.register([
 |
 */
 Server.middleware.registerNamed({
+
   throttle: () => import('@adonisjs/limiter/build/throttle'),
+  auth: () => import('App/Middleware/Login'),
+
 })
+
+// Server.middleware.register([
+//   () => import('@ioc:Adonis/Core/BodyParser'),
+//   () => import('App/Middleware/Login')
+// ])
