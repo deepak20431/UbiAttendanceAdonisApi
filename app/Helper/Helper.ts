@@ -4,7 +4,7 @@ import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class Helper{
 
-    public static async encode5t(str:any)
+    public static encode5t(str:any)
     {
         for (let i = 0; i < 5; i++) {
             str = Buffer.from(str).toString('base64');
