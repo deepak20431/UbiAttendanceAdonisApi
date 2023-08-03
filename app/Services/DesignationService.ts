@@ -1,27 +1,32 @@
 import Database from "@ioc:Adonis/Lucid/Database";
 // import moment from "moment";
+import Helper from "App/Helper/Helper";
+const moment = require("moment");
+require("moment-timezone");
 
 export default class DesignationService {
   // Insert Designation method
   public static async AddDesignation(a) {
     const currentDate = new Date();
 
-    var query = await Database.query()
+    var designationList= await Database.query()
       .from("DesignationMaster")
       .where("Name", a.name)
-      .andWhere("OrganizationId", a.orgid);
+      .andWhere("OrganizationId", a.orgid)
+      .select("Id");
 
+      
     const result: any = [];
-    const res: any = await query;
+    const res: any = await designationList;
 
-    const r = res.length;
-
-    if (r > 0) {
+    const affectedRows = res.length;
+    
+    if (affectedRows> 0) {
       result["status"] = -1;
-      return 'user already exist';
+      return false;
     }
 
-    var query2: any = await Database.insertQuery()
+    var insertDesignation: any = await Database.insertQuery()
       .table("DesignationMaster")
       .insert({
         Name: a.name,
@@ -41,27 +46,36 @@ export default class DesignationService {
         add_sts: "YourAddStsValue",
       });
 
-    return 'User inserted';
+    const res2: any = await insertDesignation;
+
+    const affectedRows2 = res2.length;
+
+    if (affectedRows2 > 0) {
+      const timezone = await Helper.getTimeZone(a.orgid);
+      const zone = timezone[0]?.name;
+
+      const currentDateTime = moment().tz(zone);
+
+      const date = new Date();
+      const module = "Attendance app";
+      const appModule = "Designation";
+      const activityby = 1;
+      var action = Helper.getempnameById(a.uid);
+      const insertActivityHistoryMaster:any = await Database.insertQuery()
+        .table("ActivityHistoryMaster")
+        .insert({
+          ActionPerformed:action,
+          AppModule:appModule,
+        });
+      result["status"] = 1;
+      return result;
+    }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   // Fetch data method
   public static async getDesignation(a) {
     const begin = (a.currentpage - 1) * a.perpage;
 
-    let query: any = Database.from("DesignationMaster")
+    let designationList: any = Database.from("DesignationMaster")
       .select(
         "Id",
         "OrganizationId",
@@ -74,15 +88,15 @@ export default class DesignationService {
       .orderBy("Name", "asc");
 
     if (a.currentpage != 0 && a.pagename == 0) {
-      query = query.offset(begin).limit(a.perpage);
+      designationList = designationList.offset(begin).limit(a.perpage);
     }
 
     if (a.status != undefined) {
-      query = query.where("Archive", a.status);
+      designationList = designationList.where("Archive", a.status);
     }
     const currentDate = new Date();
 
-    const result = await query;
+    const result = await designationList;
     const s: any[] = [];
     var res = 0;
     result.forEach(function (val) {
@@ -98,7 +112,7 @@ export default class DesignationService {
     });
 
     if (res == 1) {
-      query = Database.from("DesignationMaster")
+      designationList = Database.from("DesignationMaster")
         .select(
           "Id",
           Database.raw(
@@ -110,39 +124,37 @@ export default class DesignationService {
         .orderBy("name", "asc");
     }
 
-    return query;
+    return designationList;
   }
-
-
-
-
-
-
   
+
+
+
+
+
   // Update designation Method
   public static async updateDesignation(c) {
-    
     const result: any[] = [];
     result["status"] = 0;
-  
+
     let curdate = new Date();
 
-    const query = await Database.from("DesignationMaster")
+    const designationList = await Database.from("DesignationMaster")
       .select("Id")
       .where("Name", c.UpdateName)
       .andWhere("OrganizationId", c.Updateorgid)
       .andWhere("Id", c.Updateid);
 
-    const Result: any = await query;
+    const Result: any = await designationList;
     const r = Result.length;
 
     if (r > 0) {
       result["status"] = -1;
-      return result['status']
-       // if dept already exists
+      return result["status"];
+      // if dept already exists
       return false;
     }
-    const queryResult = await Database.from("DesignationMaster")
+    const designationList2 = await Database.from("DesignationMaster")
       .select("Name", "archive")
       .where("OrganizationId", c.Updateorgid)
       .where("Id", c.Updateid);
@@ -150,9 +162,10 @@ export default class DesignationService {
     let name = "";
     let sts1 = "";
 
-    const qr: any = await queryResult;
-
-    if (qr) {
+    const qr: any = await designationList2;
+    const count3 = qr.length
+    
+    if (count3) {
       // Assign the values to the variables if a row is found
       name = qr.Name;
       sts1 = qr.archive;
@@ -165,21 +178,55 @@ export default class DesignationService {
       res = c.sts;
     }
 
-    var updateResult: any = await Database.query()
+    var updateDesignaion: any = await Database.query()
       .from("DesignationMaster")
       .where("id", c.Updateid)
       .update({
-        Name:c.UpdateName,
+        Name: c.UpdateName,
         LastModifiedDate: curdate,
         LastModifiedById: c.uid,
         archive: c.sts,
-        OrganizationId: c.UpdateName,
+        OrganizationId: c.Updateorgid,
       });
 
-    const updateResponse = await updateResult;
+    const updateResponse = await updateDesignaion;
+const count = updateResponse.length
 
+if(count>0){
+
+  const timezone = await Helper.getTimeZone(c.Updateorgid);
+      const zone = timezone[0]?.name;
+
+      const currentDateTime = moment().tz(zone);
+
+      const date = new Date();
+      const module = "Attendance app";
+      const appModule = "Designation";
+    const id = c.uid
+    let actionperformed:any =""
+    let r = 0
+    if(r == 2)
+    {
+      actionperformed = Helper.getempnameById(c.uid);
+      
+    }else if(r==1){
+      actionperformed = Helper.getempnameById(c.uid);
+    }
+    else
+    {
+      actionperformed = Helper.getempnameById(c.uid);
+    }
+    const activityby = 1;
+      const insertctivityHistoryMaster:any = await Database.insertQuery()
+        .table("ActivityHistoryMaster")
+        .insert({
+          ActionPerformed:actionperformed,
+          AppModule:appModule,
+        });
+      result["status"] = 1;
+      return result;
     
-    
-    return updateResponse;
+}
+    return updateDesignaion;
   }
 }

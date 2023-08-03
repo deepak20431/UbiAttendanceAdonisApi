@@ -15,7 +15,7 @@ export default class DesignationValidator  extends BaseValidator{
     static AddDesignationschema ={
   
    schema:schema.create({
-      uid: schema.number.optional(),
+      uid: schema.number(),
       orgid: schema.number(),
       name: schema.string(),
       sts: schema.number.optional(),

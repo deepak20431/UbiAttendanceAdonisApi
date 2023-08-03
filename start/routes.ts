@@ -18,17 +18,17 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route from "@ioc:Adonis/Core/Route";
 
-import "../app/Routes/EmployeeRoute"
-import "../app/Routes/SignInRoute"
-import  "../app/Routes/DesignationRoute"
-import "../app/Routes/GeofenceRoute"
-import "../app/Routes/GeofenceRoute"
-import "../app/Routes/UserSettingRoute"
-import  "../app/Routes/DepartmentRoute"
-import  "../app/Routes/GetTokenRoute"
-import  '../app/Routes/ShiftRoute'
-import  '../app/Routes/HolidayRoute'
+import "../app/Routes/EmployeeRoute";
+import "../app/Routes/SignInRoute";
+import "../app/Routes/DesignationRoute";
+import "../app/Routes/GeofenceRoute";
+import "../app/Routes/GeofenceRoute";
+import "../app/Routes/UserSettingRoute";
+import "../app/Routes/DepartmentRoute";
+import "../app/Routes/GetTokenRoute";
+import "../app/Routes/ShiftRoute";
+import "../app/Routes/HolidayRoute";
 
-
+import "../app/Routes/Report/GetplannerRoute";
