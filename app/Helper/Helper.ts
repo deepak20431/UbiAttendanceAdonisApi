@@ -4,7 +4,7 @@ import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class Helper{
 
-    public static async encode5t(str:any)
+    public static  encode5t(str:any)
     {
         for (let i = 0; i < 5; i++) {
             str = Buffer.from(str).toString('base64');
@@ -19,37 +19,39 @@ export default class Helper{
     }
     return str;
   }
-    public static async getTimeZone(orgid: any)
-    {
-        const query1 = await Database.query().from('ZoneMaster').select('name').where('id', Database.raw(`(select TimeZone from Organization where id =${orgid}  LIMIT 1)`));
-        return query1;
-        
+    public static  async getTimeZone(orgid: any)
+    {  
+        const query1 = await Database.query().from('ZoneMaster').select('name').where('id', Database.raw(`(select TimeZone from Organization where id =${orgid}  LIMIT 1)`))
+        return query1[0].name;   
     }
     public static async getempnameById(empid: number) { 
         const query2 = await Database.query().from('EmployeeMaster').select('FirstName').where('Id', empid); 
-        //const FristName = query2[0].FristName;
         return query2[0].FirstName;
         
     }
-   public static generateToken(secretKey:string, data:any={}) {
+   public static  generateToken(secretKey:string, data:any={}) {
       try{
+          
         const payload={
           audience:data.username,
           Id:data.empid,
          }
-         const options={
-          expiresIn: "1m",
+        const options={
+          expiresIn: "1h",
           issuer:"Ubiattendace App",
          }
         const token = jwt.sign(payload,secretKey,options,{
           "alg": "RS512",
           "typ": "JWT"
         })
-        return token;
+          return token;
       }catch(err){
           console.log(err);
           return 0;
       }
   }
+  
+
+
 }
 
